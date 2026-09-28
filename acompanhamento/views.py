@@ -4,7 +4,8 @@ from datetime import date, datetime, timedelta
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password, make_password
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
+from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
 from django.db.models import Q
@@ -730,3 +731,30 @@ def medico_perfil(request):
         'aba_ativa': 'perfil',
     }
     return render(request, 'acompanhamento/medico_perfil.html', context)
+
+
+# ==========================================
+# PWA (Progressive Web App) Endpoints
+# ==========================================
+
+def service_worker_view(request):
+    sw_path = settings.BASE_DIR / 'acompanhamento' / 'static' / 'js' / 'sw.js'
+    try:
+        with open(sw_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        response = HttpResponse(content, content_type='application/javascript')
+        response['Service-Worker-Allowed'] = '/'
+        return response
+    except FileNotFoundError:
+        return HttpResponse('// sw not found', content_type='application/javascript')
+
+
+def manifest_view(request):
+    manifest_path = settings.BASE_DIR / 'acompanhamento' / 'static' / 'manifest.json'
+    try:
+        with open(manifest_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        return HttpResponse(content, content_type='application/manifest+json')
+    except FileNotFoundError:
+        return HttpResponse('{}', content_type='application/manifest+json')
+

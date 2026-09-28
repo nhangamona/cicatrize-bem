@@ -1,0 +1,21 @@
+{
+  "name": "Cicatrize Bem — Telemonitoramento Dermatológico",
+  "short_name": "CicatrizeBem",
+  "description": "Aplicativo para telemonitoramento pós-operatório de cirurgias dermatológicas",
+  "start_url": "/login/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F9FA",
+  "theme_color": "#00796B",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/static/img/logo_cicatrizebem.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["medical", "health"]
+}

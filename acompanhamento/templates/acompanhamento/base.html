@@ -6,6 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>{% block title %}Cicatrize Bem — Telemonitoramento Dermatológico{% endblock %}</title>
   
+  <!-- PWA Metadata & Manifest -->
+  <link rel="manifest" href="{% url 'acompanhamento:manifest' %}">
+  <meta name="theme-color" content="#00796B">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="CicatrizeBem">
+  <link rel="apple-touch-icon" href="{% static 'img/logo_cicatrizebem.png' %}">
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="{% static 'img/logo_cicatrizebem.png' %}">
   
@@ -67,6 +76,15 @@
     }
     setInterval(updateClock, 30000);
     updateClock();
+
+    // Registro do Service Worker (PWA)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then((reg) => console.log('Cicatrize Bem PWA ativo. Escopo:', reg.scope))
+          .catch((err) => console.log('Falha ao registrar Service Worker:', err));
+      });
+    }
   </script>
   {% block extra_js %}{% endblock %}
 </body>

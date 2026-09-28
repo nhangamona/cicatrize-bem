@@ -29,4 +29,8 @@ urlpatterns = [
     path('medico/perfil/', views.medico_perfil, name='medico_perfil'),
     path('medico/alta/<uuid:cirurgia_id>/', views.medico_dar_alta, name='medico_dar_alta'),
     path('medico/arquivar/<uuid:cirurgia_id>/', views.medico_arquivar, name='medico_arquivar'),
+
+    # PWA
+    path('sw.js', views.service_worker_view, name='service_worker'),
+    path('manifest.json', views.manifest_view, name='manifest'),
 ]
