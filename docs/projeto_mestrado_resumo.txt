@@ -1,0 +1,739 @@
+ 
+
+GOVERNO DO ESTADO DO PARÁ
+
+UNIVERSIDADE DO ESTADO DO PARÁ
+
+CENTRO DE CIÊNCIAS BIOLÓGICAS DA SAÚDE
+
+PROGRAMA DE PÓS-GRADUAÇÃO EM PESQUISA E CIRURGIA EXPERIMENTAL
+
+FERNANDA ARAUJO SANTOS
+
+TELEMONITORAMENTO PÓS-OPERATÓRIO DE CIRURGIAS DERMATOLÓGICAS: DESENVOLVIMENTO DE UM APLICATIVO PARA SEGUIMENTO REMOTO DE PACIENTES ATENDIDOS EM CENTROS DE REFERÊNCIA
+
+BELÉM-PA
+
+2026
+
+FERNANDA ARAUJO SANTOS
+
+TELEMONITORAMENTO PÓS-OPERATÓRIO DE CIRURGIAS DERMATOLÓGICAS: DESENVOLVIMENTO DE UM APLICATIVO PARA SEGUIMENTO REMOTO DE PACIENTES ATENDIDOS EM CENTROS DE REFERÊNCIA
+
+Projeto de pesquisa apresentado à Universidade do Estado do Pará (UEPA), Campus II, Belém – PA, como requisito ao programa de Mestrado Profissional em Cirurgia e Pesquisa Experimental (CIPE), sob orientação da Profa Dra Priscila Xavier de Araujo.
+
+Orientadora
+
+Profa. Dra. Priscila Xavier de Araujo
+
+BELÉM-PA
+
+2026
+
+RESUMO
+
+A telemedicina representa uma importante estratégia de ampliação do acesso à saúde, especialmente em regiões marcadas por grandes distâncias territoriais, escassez de especialistas e dificuldade de deslocamento dos pacientes. Na dermatologia, especialidade essencialmente visual, a teledermatologia permite a avaliação remota de lesões cutâneas, feridas operatórias e condições pós-procedimento por meio do envio de imagens e informações clínicas. No contexto das cirurgias dermatológicas, o acompanhamento pós-operatório é fundamental para a identificação precoce de intercorrências como dor, sangramento, infecção, deiscência de sutura, necrose tecidual e alterações na cicatrização. Em estados de grande extensão territorial, como o Pará, pacientes atendidos em centros de referência podem residir em municípios distantes, o que dificulta retornos presenciais frequentes e pode atrasar a avaliação de complicações. Dessa forma, o uso de aplicativos móveis surge como recurso promissor para organizar o seguimento remoto, padronizar o envio de fotografias, registrar sintomas e facilitar a comunicação entre pacientes e equipe assistencial. Esta é uma pesquisa aplicada, de caráter descritivo e de desenvolvimento tecnológico, que visa desenvolver um aplicativo móvel para telemonitoramento pós-operatório de pacientes submetidos a cirurgias dermatológicas em centros de referência. O estudo será dividido em etapas: revisão da literatura; desenvolvimento do protótipo do aplicativo; avaliação/validação do produto por especialistas. O aplicativo deverá conter funcionalidades voltadas ao cadastro do paciente, registro da cirurgia realizada, envio programado de fotografias da ferida operatória, preenchimento de questionários sobre sintomas, orientações de cuidados pós-operatórios e comunicação de sinais de alerta. Após a coleta dos dados de avaliação, estes serão organizados em planilhas eletrônicas e analisados por meio de estatística descritiva, com apresentação em tabelas e gráficos. Espera-se que o aplicativo seja validado como ferramenta de apoio ao acompanhamento pós-operatório em cirurgia dermatológica, contribuindo para maior segurança do paciente, detecção precoce de complicações, redução de deslocamentos desnecessários e melhoria da continuidade do cuidado em regiões com barreiras geográficas e baixa disponibilidade de especialistas.
+
+Palavras-chave: teledermatologia; procedimentos cirúrgicos dermatológicos; cuidados pós operatórios; aplicativos móveis
+
+ABSTRACT
+
+Telemedicine represents an important strategy for expanding access to healthcare, especially in areas marked by large territorial distances, a shortage of specialists, and difficulty in patient travel. In dermatology, an essentially visual specialty, teledermatology allows for the remote evaluation of lesions, surgical wounds, and post-procedure conditions through the transmission of images and clinical information. In the context of dermatological surgeries, postoperative follow-up is fundamental for the early identification of complications such as pain, bleeding, infection, suture dehiscence, tissue necrosis, and alterations in healing. In states with large territorial extensions, such as Pará, patients treated in referral centers may reside in distant municipalities, which hinders frequent in-person visits and can delay the evaluation of complications. Therefore, the use of mobile applications emerges as a promising resource for organizing remote tracking, standardizing the transmission of photographs, recording symptoms, and facilitating communication between patients and the healthcare team. This is an applied research project, descriptive in nature and focused on technological development, which aims to develop a mobile application for postoperative telemonitoring of patients undergoing dermatological surgeries in referral centers. The study will be divided into stages: literature review; development of the application prototype; and evaluation/validation of the product by specialists. The application should include functionalities external to the patient registration, recording of the surgery performed, scheduled sending of photographs of the surgical wound, completion of questionnaires about symptoms, postoperative care guidelines, and communication of warning signs. After collecting the evaluation data, these will be organized in spreadsheets and analyzed using descriptive statistics, with presentation in tables and graphs. It is expected that the application will be validated as a support tool for postoperative follow-up in dermatological surgery, contributing to greater patient safety, early detection of complications, reduction of necessary travel, and improved continuity of care in regions with geographical barriers and low availability of specialists.
+
+Keywords: teledermatology; dermatologic surgical procedures; postoperative care; mobile applications
+
+Sumário
+
+1 INTRODUÇÃO6
+
+2 JUSTIFICATIVA10
+
+3 HIPÓTESE11
+
+4 OBJETIVOS12
+
+4.1 Geral12
+
+4.2 Específicos12
+
+4.3 Secundários12
+
+6 MÉTODOS13
+
+6.1 Aspectos éticos13
+
+6.2 Local e desenho do estudo13
+
+6.3 Criação e validação do aplicativo13
+
+6.4 Análise de dados15
+
+6.5 Riscos e Benefícios15
+
+6.5.1 Riscos15
+
+6.5.2 Benefícios15
+
+6.6 Resultados esperados16
+
+7 CRONOGRAMA17
+
+8 ORÇAMENTO18
+
+REFERÊNCIAS19
+
+APÊNDICE A - INSTRUMENTO DE AVALIAÇÃO DOS JUÍZES21
+
+APÊNDICE B -TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO (TCLE)24
+
+ANEXO A -   CARTA DE APRESENTAÇÃO25
+
+ANEXO B - TERMO DE ACEITE DO ORIENTADOR26
+
+ANEXO C - DECLARAÇÃO DE COMPROMISSO DO PESQUISADOR27
+
+1 INTRODUÇÃO
+
+A telemedicina representa uma das transformações mais relevantes da assistência em saúde, especialmente em cenários nos quais a distância geográfica, a escassez de especialistas e as dificuldades de deslocamento limitam o acesso à saúde. De acordo com a Organização Mundial da Saúde, a telemedicina pode ser compreendida como a oferta de serviços de saúde por meio de tecnologias de informação e comunicação, quando a distância constitui fator crítico, permitindo a troca de informações válidas para diagnóstico, tratamento, prevenção, pesquisa, avaliação e educação permanente em saúde (TOMMASINO et al., 2024).
+
+No campo da dermatologia, a telemedicina encontrou terreno favorável em razão da natureza eminentemente visual da especialidade. A pele, está sujeita a múltiplas condições clínicas, inflamatórias, infecciosas, tumorais e cirúrgicas, cuja avaliação depende, em grande medida, da inspeção clínica e do registro fotográfico adequado. Nesse sentido, a teledermatologia pode ser definida como a aplicação da telemedicina à dermatologia, permitindo a avaliação remota de lesões cutâneas, feridas, dermatoses inflamatórias, neoplasias e condições pós-procedimento por meio de imagens, vídeos, dados clínicos e comunicação digital entre paciente e profissional de saúde (TOMMASINO et al., 2024; MOLAALINEJAD et al., 2026). 
+
+Historicamente, as primeiras experiências em teledermatologia remontam à década de 1990, com relatos iniciais na Noruega em 1993 e publicações indexadas a partir de 1995, em um período no qual a baixa disponibilidade de dermatologistas em áreas rurais já era reconhecida como desafio relevante para os sistemas de saúde (TOMMASINO et al., 2024). 
+
+A evolução tecnológica das últimas décadas, marcada pela popularização da internet, dos smartphones e das câmeras digitais de alta resolução, permitiu que a teledermatologia deixasse de ser uma prática experimental ou restrita a centros acadêmicos e passasse a integrar, de forma progressiva, a rotina assistencial. Atualmente, suas principais modalidades incluem a teledermatologia síncrona, também chamada de tempo real, na qual médico e paciente interagem simultaneamente por videochamada; a teledermatologia assíncrona, conhecida como store-and-forward, na qual imagens e informações clínicas são enviadas para avaliação posterior; e os modelos híbridos, que combinam elementos de ambas as estratégias (TOMMASINO et al., 2024; MASHOUDY; PEREZ; NOURI, 2024). 
+
+A modalidade assíncrona apresenta especial aplicabilidade em dermatologia, pois permite que fotografias clínicas e dados estruturados sejam avaliados pelo especialista sem necessidade de encontro simultâneo, favorecendo a triagem, o seguimento terapêutico e o monitoramento de pacientes em locais remotos ou com barreiras de acesso. Diversos estudos indicam que a teledermatologia pode contribuir para a ampliação do acesso à atenção especializada, redução de filas, diminuição de deslocamentos desnecessários e aumento da satisfação dos pacientes. Em revisões recentes, sua aplicação tem sido descrita em diferentes etapas do cuidado dermatológico, desde triagem de câncer de pele, avaliação diagnóstica, seguimento de doenças crônicas, orientação terapêutica, educação em saúde e acompanhamento pós-operatório (MASHOUDY; PEREZ; NOURI, 2024; MOLAALINEJAD et al., 2026). 
+
+No contexto das cirurgias dermatológicas, o seguimento pós-operatório constitui etapa essencial para a segurança do paciente e para a identificação precoce de intercorrências. Procedimentos como exérese de tumores cutâneos, reconstruções com retalhos ou enxertos, suturas simples, curetagens, criocirurgias e cirurgia micrográfica de Mohs demandam orientação adequada sobre curativos, sinais de alerta, dor, sangramento, deiscência, infecção e alterações na viabilidade tecidual. Complicações infecciosas, necrose de tecido, hematomas, sangramentos persistentes e abertura de pontos podem comprometer o resultado funcional e estético da cirurgia, além de exigir intervenção precoce. Nesses casos, o telemonitoramento pós-operatório pode funcionar como ferramenta intermediária entre a alta cirúrgica e o retorno presencial, permitindo que o paciente envie fotografias seriadas da ferida operatória, responda a perguntas estruturadas e relate sintomas relevantes em intervalos previamente definidos.
+
+A literatura recente tem demonstrado resultados promissores do acompanhamento pós-operatório remoto em cirurgia dermatológica. Em estudo piloto sobre avaliação de feridas após cirurgia micrográfica de Mohs, a estratégia store-and-forward foi descrita como método seguro, efetivo e eficiente para o cuidado pós-operatório, com elevada satisfação dos pacientes, redução de tempo e distância de deslocamento e preferência majoritária por novos acompanhamentos remotos (WERBEL; FARAHBAKHSH; KONDA, 2024). 
+
+Uma revisão específica sobre o papel da teledermatologia na cirurgia de Mohs também apontou benefícios nas fases pré-operatória, intraoperatória e pós-operatória, incluindo redução do tempo até a avaliação, economia de deslocamento, apoio à comunicação clínica e possibilidade de identificação precoce de complicações por telefone, mensagens de texto ou envio de imagens (ALGARIN et al., 2024). Embora esses dados estejam mais consolidados em serviços de países de alta renda, seus achados são particularmente relevantes para regiões nas quais as distâncias territoriais e a concentração de especialistas dificultam retornos presenciais frequentes.
+
+No Brasil, tais desafios assumem dimensão ainda maior em estados extensos e com desigual distribuição de recursos de saúde, como o Pará, que possui uma área territorial de aproximadamente 1.245.831 km², com 144 municípios e população superior a 8 milhões de habitantes, de acordo com o último Censo (IBGE, 2025). Essa conformação territorial, associada à presença de municípios de difícil acesso, grandes distâncias entre localidades e dependência de transporte fluvial, terrestre ou aéreo em determinadas regiões, cria obstáculos concretos ao seguimento presencial de pacientes operados em centros de referência. Além disso, os dados da Demografia Médica indicam que as informações sobre médicos e especialistas no Brasil devem ser analisadas de forma regionalizada, considerando a desigualdade de distribuição entre capitais, interiores e diferentes unidades da federação (CFM, 2024). 
+
+Nesse contexto, a baixa disponibilidade de médicos dermatologistas fora dos grandes centros urbanos reforça a necessidade de soluções assistenciais que permitam acompanhamento remoto supervisionado, sem desassistir pacientes que residem longe dos serviços especializados. Após a cirurgia, o paciente pode retornar ao seu município de origem e, diante de sinais como dor, sangramento, secreção, mau odor, escurecimento de retalho, alteração de enxerto ou rompimento de sutura, enfrentar incerteza sobre a necessidade de deslocamento imediato ao serviço. Essa situação pode resultar tanto em retornos desnecessários, com custos financeiros e logísticos relevantes, quanto em atraso na identificação de complicações potencialmente graves. O telemonitoramento, quando estruturado por protocolos, prazos definidos e avaliação por profissional habilitado, pode contribuir para reduzir esse intervalo de incerteza, orientando condutas, reforçando cuidados locais e encaminhando presencialmente os casos que apresentem sinais de alarme.
+
+Nesse cenário, os aplicativos móveis surgem como dispositivos estratégicos para operacionalizar o telemonitoramento dermatológico. As tecnologias de mHealth, ou saúde móvel, incluem aplicativos, mensagens, formulários digitais, notificações, armazenamento de imagens, chatbots, integração com prontuários e ferramentas de comunicação entre pacientes e equipes de saúde (CHERREZ-OJEDA et al., 2024; MOLAALINEJAD et al., 2026). No contexto pós-operatório, tais funcionalidades podem ser adaptadas para lembretes em dias específicos, envio padronizado de fotografias, questionários sobre dor, sangramento e secreção, mensagens de orientação, classificação de risco e acionamento da equipe assistencial.
+
+Entretanto, a adoção de aplicativos em dermatologia exige atenção a aspectos de qualidade, segurança e usabilidade. A acurácia da avaliação remota depende diretamente da qualidade das imagens enviadas, da iluminação, foco, distância, enquadramento, nitidez e padronização do registro fotográfico. Um estudo sobre aplicações digitais de imagem em pele demonstrou que, embora haja grande número de ferramentas disponíveis, muitas ainda carecem de recursos robustos para orientar a aquisição adequada de fotografias, como instruções visuais, exigência de múltiplas imagens, detecção de desfoque, controle de iluminação ou feedback automático de qualidade (SUN et al., 2022). Essa limitação é relevante, pois imagens de baixa qualidade podem prejudicar a interpretação clínica e comprometer a segurança do teleatendimento. Assim, um aplicativo voltado ao seguimento pós-operatório de cirurgias dermatológicas deve incorporar orientações simples, linguagem acessível, campos estruturados e mecanismos que estimulem o envio de imagens clinicamente úteis.
+
+Além da qualidade da imagem, outros fatores são essenciais para a implementação segura de aplicativos móveis em saúde, como proteção de dados pessoais, clareza sobre a finalidade do recurso, integração com a rotina assistencial, definição de responsabilidade profissional, acessibilidade e inclusão digital. Estudos qualitativos sobre aplicativos móveis para triagem dermatológica indicam que profissionais de saúde reconhecem benefícios como aumento da conscientização, detecção precoce e organização da jornada do paciente, mas também apontam riscos relacionados a diagnósticos incorretos, exclusão de subpopulações, baixa confiança, ausência de integração clínica e dúvidas sobre responsabilidade em eventos adversos (SANGERS et al., 2025). Portanto, o desenvolvimento de um aplicativo para telemonitoramento pós-operatório não deve ser compreendido apenas como inovação tecnológica, mas como intervenção assistencial que precisa ser planejada com base em evidências, protocolos clínicos, segurança da informação e participação de profissionais envolvidos no cuidado.
+
+Diante desse panorama, o desenvolvimento de um aplicativo para seguimento remoto de pacientes atendidos em centros de referência em cirurgia dermatológica apresenta relevância científica, assistencial e social. A proposta dialoga com a necessidade de ampliar o acesso ao cuidado especializado, especialmente em estados de grandes dimensões territoriais, como o Pará, nos quais o deslocamento para retornos pós-operatórios pode representar barreira significativa. Ao permitir o envio programado de fotografias e informações clínicas, o telemonitoramento pode auxiliar na detecção precoce de complicações infecciosas, sangramentos, deiscências, alterações de retalhos e sinais de necrose, além de reforçar orientações de curativo e autocuidado. 
+
+2 JUSTIFICATIVA
+
+O acompanhamento pós-operatório em cirurgias dermatológicas é uma etapa essencial para a segurança do paciente, pois permite avaliar a evolução da cicatrização, reforçar orientações de curativo e identificar precocemente possíveis intercorrências, como dor persistente, sangramento, infecção, deiscência de sutura, sofrimento de retalhos, alterações de enxertos e necrose tecidual. Quando essas complicações não são reconhecidas em tempo oportuno, podem ocorrer prejuízos funcionais, estéticos e clínicos, além da necessidade de novas intervenções ou atendimento de urgência.
+
+No contexto da dermatologia, a avaliação visual possui grande importância, uma vez que a inspeção da pele, das feridas operatórias e das alterações cicatriciais orienta grande parte da conduta médica. Por essa razão, a teledermatologia tem se mostrado uma ferramenta relevante para ampliar o acesso ao cuidado especializado, permitindo que imagens e informações clínicas sejam enviadas para avaliação remota. 
+
+A utilização dessa estratégia torna-se ainda mais relevante em regiões com grandes distâncias territoriais, como o estado do Pará. Muitos pacientes retornam aos seus municípios de origem após o procedimento e, diante de sinais de alerta, podem não saber se devem procurar atendimento imediato, aguardar a consulta de retorno ou realizar novo deslocamento até o centro onde foram operados. Dessa forma, torna-se necessário desenvolver ferramentas que auxiliem a comunicação entre paciente e equipe de saúde, favoreçam o envio padronizado de fotografias, organizem informações sobre sintomas e permitam uma avaliação mais próxima no período pós-operatório.
+
+Os aplicativos móveis em saúde apresentam-se como instrumentos promissores nesse cenário, pois podem reunir, em uma única plataforma, orientações ao paciente, lembretes de acompanhamento, envio de imagens da ferida operatória, questionários sobre sintomas e mensagens de alerta. Além disso, podem contribuir para a padronização das informações recebidas pela equipe assistencial, reduzindo falhas de comunicação e facilitando a tomada de decisão quanto à necessidade de retorno presencial.
+
+Diante disso, este estudo busca contribuir para a qualificação da assistência pós-operatória em cirurgia dermatológica, promovendo maior segurança ao paciente e oferecendo aos profissionais de saúde um recurso tecnológico aplicável à realidade de regiões com barreiras geográficas, baixa disponibilidade de especialistas e dificuldade de acompanhamento presencial contínuo.
+
+3 HIPÓTESE
+
+H0: O aplicativo para telemonitoramento de pacientes pós cirurgia dermatológica pode ser validado.
+
+H1: O aplicativo para telemonitoramento de pacientes pós cirurgia dermatológica não pode ser validado.
+
+4 OBJETIVOS
+
+4.1 Geral
+
+Desenvolver aplicativo para telemonitoramento de pacientes pós cirurgia dermatológica.
+
+4.2 Específicos
+
+Avaliar e validar o conteúdo do aplicativo por juízes especialistas em cirurgia dermatológica;
+
+Validar a eficácia do aplicativo através da opinião dos pacientes atendidos em serviços credenciados em cirurgia dermatológica.
+
+4.3 Secundários
+
+Produzir vídeos educativos sobre manejo e cuidado de feridas para ser disponibilizado no aplicativo.
+
+6 MÉTODOS
+
+6.1 Aspectos éticos
+
+Esta pesquisa seguirá todos os preceitos da Declaração de Helsinque e do Código de Nuremberg, sendo respeitadas as normas de pesquisa com Seres Humanos (Res. CNS 466/12) e do Conselho Nacional de Saúde mediante aprovação do Comitê de Ética da Universidade do Estado do Pará (UEPA), Campus II - Belém. A pesquisa iniciará após a assinatura do Termo de Consentimento Livre e Esclarecido (TCLE) pelos juízes.
+
+6.2 Local e desenho do estudo
+
+Trata-se de uma pesquisa aplicada, que visa o desenvolvimento de um aplicativo para telemonitoramento de pacientes que serão submetidos a cirurgia dermatológica em serviços de referencia em cirurgia dermatológica. A pesquisa é voltada para elaboração de novos produtos. Terá caráter descritivo de desenvolvimento, com abordagem quantitativa. A forma de abordagem será quantitativa analítica, envolvendo sujeitos. 
+
+O estudo será realizado com juízes especialistas na área da dermatologia e cirurgia dermatológica, desde que obedeçam aos critérios de inclusão (etapa II do item 6.3). 
+
+6.3 Criação e validação do aplicativo
+
+Para se alcançar os objetivos estabelecidos, o presente estudo será dividido em três etapas.
+
+Etapa I: Revisão Integrativa da Literatura
+
+Etapa II: Desenvolvimento do aplicativo
+
+Etapa III: Avaliação e validação do aplicativo por juízes especialistas
+
+Etapa I: será realizada uma revisão bibliográfica a fim de fundamentar a importância da teledermatologia no acompanhamento de pacientes que realizam cirurgias dermatológicas. Serão utilizados os seguintes descritores: teledermatologia; procedimentos cirúrgicos dermatológicos; cuidados pós operatórios; aplicativos móveis. A pesquisa será realizada nas seguintes bases de dados científicas: SCIELO (Scientific Eletronic Library Online), LILACS (Literatura Latino Americana e do Caribe em Ciência da Saúde) e PUBMED (National Institutes of Heanth-USA) 
+
+    Depois da realização de pesquisa bibliográfica em periódicos indexados nacionais e internacionais dos últimos 5 anos, os artigos serão tabelados em planilha do software Microsoft Excel 2016, para que sejam organizados a partir do título, do periódico, dos objetivos, dos resultados e da discussão. Esses procedimentos auxiliarão na obtenção de dados para o conteúdo do aplicativo.
+
+Etapa II: O aplicativo será elaborado no intuito de fazer o acompanhamento pós-operatório adequado em cirurgias dermatológicas, especialmente em pacientes que residem em municípios distantes dos centros de referência ou que possuem dificuldade de retorno presencial. Serão desenvolvidos vídeos acessórios para orientações em saúde e cuidado de feridas operatórias. Assim, o paciente terá acesso a perguntas e respostas frequentes além de ter acesso via chat com o médico(a) que realizou seu procedimento por um período de 28 dias de acompanhamento.
+
+Etapa III: Para a validação, o aplicativo será submetido à apreciação de 10 juízes, sendo estes médicos dermatologistas com atuação em cirurgia dermatológica nos serviços de referência de dermatologia do SUS, na cidade de Belém, estado do Pará. Inicialmente será enviado um convite para os juízes, que será enviado juntamente com o questionário através do Google Forms. Os que aceitarem serão direcionados para a fase de apresentação do produto - aplicativo. Após esta fase serão encaminhados para o preenchimento do questionário.
+
+Os dados coletados no questionário serão idade, sexo, especialidade, titulação e tempo de formação. Serão incluídos médicos dermatologistas e dermatologistas com atuação em cirurgia dermatológica, de ambos os sexos, acima de 18 anos, que assinarem o TCLE, com especialidade nas áreas e acima de quatro anos e experiência. Serão excluídos profissionais de outras áreas da saúde e outras especialidades e que não aceitarem assinar o TCLE, que não tiverem registro no conselho da classe que atua e/ou que atuarem fora do território nacional.
+
+Após a seleção, os juízes receberão um email com link para cadastro e acesso ao aplicativo. Neste email também haverá um link com uma demonstração de uso das ferramentas do aplicativo. Além disso receberão link de acesso ao questionário baseado na escala de Likert, em cinco níveis de concordância (discordo fortemente, discordo, não concordo, nem discordo, concordo e concordo fortemente), por meio do Google Forms. Sendo este, composto por quatro questões contendo o perfil dos avaliadores, e vinte questões de validação de conteúdo divididas em critérios de interface, usabilidade, aplicabilidade e praticidade (APÊNDICE A).
+
+O processo de validação será realizado através da soma dos pontos obtidos pelas asserções presentes no questionário, os quais serão classificados em quatro conceitos e percentagens, sendo insuficiente (0-25%), regular (25,1-50%), bom (50,1-75%) e excelente (75,1-100%). Com percentagem de corte entre 50,1 – 75%
+
+6.4 Análise de dados
+
+Após a coleta dos dados, estes serão organizados, comparados, analisados e interpretados de acordo com as questões propostas, em planilhas do programa Microsoft Excel®, utilizando representações em tabelas e gráficos. Posteriormente os dados serão analisados pelo teste estatístico Statistical Package for Social Sciences (SPSS) versão 22.0.
+
+As características dos sujeitos da amostra serão descritas por meio de medidas descritivas, tais como: medidas de tendência central (média), dispersão (desvio padrão) e frequência absoluta (n) e relativa (%). A representação dos resultados obtidos, será após a aplicação dos questionários pelos pesquisadores depois do uso do aplicativo pelos juízes e pelos pais e/ou cuidadores. Para comparação das proporções será utilizado o teste de Qui Quadrado adotando-se p < 0,05. 
+
+6.5 Riscos e Benefícios
+
+6.5.1 Riscos
+
+Risco para os juízes:
+
+Os riscos aos juízes estão relacionados a possibilidade do vazamento de informações, desse modo, as identificações serão por meio de números minimizando o risco de exposição. Ressalta-se ainda, a possibilidade de desistência ou não aceitação dos participantes da pesquisa. 
+
+Em casos de quebra do sigilo dos juízes a pesquisa será encerrada. O uso e destinação dos materiais e/ou dados coletados serão arquivados por um período de cinco anos, de responsabilidade do pesquisador e após essa data todos os arquivos serão incinerados.
+
+Risco para o pesquisador:
+
+É possível que haja o risco de alguns participantes da pesquisa não assinarem o termo de consentimento livre e esclarecido (TCLE), por não concordarem com os termos. Nesse caso, os pesquisadores não poderão acrescentá-los à pesquisa.
+
+6.5.2 Benefícios
+
+Benefício para os juízes:
+
+Os juízes poderão contribuir para o desenvolvimento da teledermatologia além de poderem usufruir do aplicativo, após a validação, nos serviços credenciados onde atuarem.
+
+Benefício para o pesquisador:
+
+O benefício consequente da execução e análise deste projeto será a contribuição para desenvolvimento de ferramentas na teledermatologia. Possível instituição desta ferramenta na rotina do ambulatório de dermatologia da Universidade do Estado do Pará.
+
+6.6 Resultados esperados
+
+Espera-se que o aplicativo possa ser validado, e desta forma, gere um impacto positivo na vida dos pacientes que realizam cirurgias dermatológicas e morem em municípios distantes dos centros de referência.
+
+7 CRONOGRAMA
+
+Atividade
+
+2º trimestre 2026
+
+3º trimestre 2026
+
+4º trimestre 2026
+
+1º trimestre. 2027
+
+2º trimestre 2027
+
+3º trimestre 2027
+
+4º trimestre 2027
+
+Escolha do tema
+
+X
+
+Levantamento Bibliográfico
+
+X
+
+Elaboração do pré-projeto
+
+X
+
+Submissão ao CEP
+
+X
+
+Desenvolvimento dos vídeos
+
+X
+
+Desenvolvimento do Ebook
+
+X
+
+Desenvolvimento do Aplicativo
+
+X
+
+Coleta de dados com os juízes
+
+X
+
+Análise dos dados
+
+X
+
+Preparação do Artigo
+
+X
+
+Defesa
+
+X
+
+8 ORÇAMENTO
+
+PROCEDIMENTO
+
+Quantidade
+
+Nº de meses
+
+Valor unitário
+
+Valor total
+
+Desenvolvimento de software
+
+1
+
+1
+
+R$ 4.000,00 
+
+R$ 4.000,00
+
+Gravação e edição de vídeos em estúdio
+
+1
+
+1
+
+R$ 1.500,00
+
+R$ 1.500,00
+
+Computador
+
+1
+
+1
+
+R$ 8.000,00
+
+R$ 8.000,00
+
+Impressora
+
+1
+
+1
+
+R$ 1.000,00
+
+R$ 1.000,00
+
+TOTAL
+
+R$ 14.500,00
+
+REFERÊNCIAS
+
+ALGARIN, Yanci A.; JAALOUK, Dana; PULUMATI, Anika; NOURI, Keyvan. The role of teledermatology in Mohs micrographic surgery: a review. Archives of Dermatological Research, v. 316, n. 119, 2024. DOI: 10.1007/s00403-024-02851-2.
+
+CHERREZ-OJEDA, Ivan; ROBLES-VELASCO, Karla; OSORIO, María F.; ORMAZA VERA, Ana; SARFRAZ, Zouina; SARFRAZ, Azza; CHERREZ, Annia; CHERREZ, Sofia; SANCHEZ CARABALLO, Jorge Mario. A systematic review and meta-analysis of mobile health applications and telemonitoring in atopic dermatitis self-management. Dermatology and Therapy, v. 14, p. 1787-1798, 2024. DOI: 10.1007/s13555-024-01213-0.
+
+IBGE – INSTITUTO BRASILEIRO DE GEOGRAFIA E ESTATÍSTICA. Pará: cidades e estados. Rio de Janeiro: IBGE, 2024. Disponível em: https://www.ibge.gov.br/cidades-e-estados/pa.html. Acesso em: 16 jun. 2026.
+
+MASHOUDY, Kayla D.; PEREZ, Sofia M.; NOURI, Keyvan. From diagnosis to intervention: a review of telemedicine’s role in skin cancer care. Archives of Dermatological Research, v. 316, n. 139, 2024. DOI: 10.1007/s00403-024-02884-7.
+
+MOLAALINEJAD, Fateme; EGHDAMPOUR, Farideh; MENATI, Lida; QADERI, Kowsar; SHAMSABADI, Ahmadreza. Teledermatology: the most recent advancements and applications of mobile apps: a narrative review. Health Science Reports, v. 9, e72521, 2026. DOI: 10.1002/hsr2.72521.
+
+SANGERS, Tobias E.; WAKKEE, Marlies; MOOLENBURGH, Folkert; NIJSTEN, Tamar; LUGTENBERG, Marjolein. Mobile health apps for skin cancer triage in the general population: a qualitative study on healthcare providers’ perspectives. BMC Cancer, v. 25, n. 851, 2025. DOI: 10.1186/s12885-025-14244-3.
+
+SCHEFFER, Mário (coord.). Demografia Médica no Brasil 2025. Brasília: Ministério da Saúde, 2025. ISBN 978-65-5993-755-4. Disponível em: https://bvsms.saude.gov.br/bvs/publicacoes/demografia_medica_brasil_2025.pdf. Acesso em: 16 jun. 2026.
+
+SUN, Mary D.; KENTLEY, Jonathan; WILSON, Britney W.; SOYER, H. Peter; CURIEL-LEWANDROWSKI, Clara N.; ROTEMBERG, Veronica; HALPERN, Allan C. Digital skin imaging applications, part I: assessment of image acquisition technique features. Skin Research and Technology, v. 28, p. 623-632, 2022. DOI: 10.1111/srt.13163.
+
+TOMMASINO, Nello; MEGNA, Matteo; CACCIAPUOTI, Sara; VILLANI, Alessia; MARTORA, Fabrizio; RUGGIERO, Angelo; GENCO, Lucia; POTESTIO, Luca. The past, the present and the future of teledermatology: a narrative review. Clinical, Cosmetic and Investigational Dermatology, v. 17, p. 717-723, 2024. DOI: 10.2147/CCID.S462799.
+
+WERBEL, Tyler; FARAHBAKHSH, Navid; KONDA, Sailesh. Store-and-forward teledermatology wound checks following Mohs surgery: a pilot study. Telemedicine Reports, v. 5, n. 1, p. 256-262, 2024. DOI: 10.1089/tmr.2024.0039.
+
+UNIVERSIDADE DO ESTADO DO PARÁ/CAMPUS II
+
+COMITÊ DE ÉTICA EM PESQUISA COM SERES HUMANOS-CEP-CCBS
+
+APÊNDICE A - INSTRUMENTO DE AVALIAÇÃO DOS JUÍZES
+
+ Idade: ______anos            Sexo:  F (   )  M (   )        Especialidade:__________________________ 
+
+Titulação: ___________________________     Tempo de formação:____________
+
+Avaliação da Interface
+
+Há boa qualidade nas informações escritas e na mídia.
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Há equilíbrio nas cores
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Existe coesão nas imagens
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+A estética e a qualidade gráfica estão bem adequadas
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Há facilidade de navegação mesmo para usuários não treinados
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Avaliação da Usabilidade
+
+Considerei o produto mais complexo do que o necessário:
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Achei o produto fácil de utilizar:
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Acho que necessitaria de ajuda de um técnico para conseguir utilizar este produto:
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Considerei que as várias funcionalidades deste produto estavam bem integradas:
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Achei que este produto tinha muitas inconsistências:
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Suponho que a maioria das pessoas aprenderia a utilizar rapidamente este produto:
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Avaliação da Aplicabilidade
+
+Há sequência lógica de apresentação do conteúdo
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+A quantidade de informação disponível é suficiente para o entendimento do assunto
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+O conteúdo é adequado ao público-alvo
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+A abordagem do assunto é eficaz
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+Avaliação da Praticidade
+
+Há facilidade de acessar informações por meio de poucas ações
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+A navegação é acessível
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+O acesso à informação ocorre em tempo hábil (carrega rápido)
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+É responsiva (adaptável às telas)
+
+Discordo fortemente
+
+Discordo
+
+Não concordo, nem discordo
+
+Concordo
+
+Concordo fortemente
+
+UNIVERSIDADE DO ESTADO DO PARÁ/CAMPUS II
+
+COMITÊ DE ÉTICA EM PESQUISA COM SERES HUMANOS-CEP-CCBS
+
+APÊNDICE B -TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO (TCLE)
+
+PARA JUÍZES
+
+(De acordo com a Resolução no 466 de 12 de dezembro de 2012)
+
+Você está sendo convidado(a) como voluntário(a) a participar da pesquisa: “TELEMONITORAMENTO PÓS-OPERATÓRIO DE CIRURGIAS DERMATOLÓGICAS: DESENVOLVIMENTO DE UM APLICATIVO PARA SEGUIMENTO REMOTO DE PACIENTES ATENDIDOS EM CENTROS DE REFERÊNCIA”. 
+
+A pesquisa tem como objetivo desenvolver e avaliar um aplicativo móvel destinado ao acompanhamento remoto de pacientes submetidos a cirurgias dermatológicas em centros de referência. O aplicativo permitirá o envio de fotografias da ferida operatória pelo paciente, o preenchimento de informações simples sobre sintomas no pós-operatório e a comunicação de intercorrências, como dor, sangramento, secreção, abertura de pontos, alteração da cor da pele, suspeita de infecção ou sinais de sofrimento/necrose do tecido.
+
+O motivo que nos leva a estudar esse tema é a importância do acompanhamento pós-operatório adequado em cirurgias dermatológicas, especialmente em pacientes que residem em municípios distantes dos centros de referência ou que possuem dificuldade de retorno presencial frequente. Em estados de grandes dimensões territoriais, como o Pará, o deslocamento para consultas de reavaliação pode envolver custos, tempo e dificuldades logísticas. Assim, o telemonitoramento pode contribuir para facilitar o seguimento remoto, orientar o paciente, identificar precocemente possíveis complicações e indicar, quando necessário, o retorno presencial ao serviço de saúde.
+
+A teledermatologia e os aplicativos móveis em saúde vêm sendo utilizados como ferramentas complementares ao atendimento presencial, especialmente por permitirem o envio de imagens e informações clínicas para avaliação por profissionais capacitados. No contexto pós-operatório, esse tipo de acompanhamento pode auxiliar na observação da cicatrização, na avaliação de sinais de alerta e no reforço das orientações de curativo e cuidados domiciliares. Ressalta-se, contudo, que o aplicativo não substituirá o atendimento presencial quando este for necessário, nem terá a finalidade de realizar diagnóstico definitivo sem avaliação médica adequada.
+
+O projeto contará com a avaliação de 10 juízes, médicos dermatologistas que realizam cirurgias dermatológicas em serviços de referencia em dermatologia no SUS, de ambos os sexos, acima de 18 anos e que assinarem o TCLE. Serão excluídos profissionais de outras áreas da saúde e outras especialidades e que não aceitarem assinar o TCLE, que não tiverem registro no conselho da classe que atua e/ou que atuarem fora do território nacional. Posteriormente, será realizada a validação do aplicativo.
+
+Toda pesquisa com seres humanos apresenta riscos e, por isso, tem de ter benefícios que a justifiquem.  Os riscos ao indivíduo são inerentes as pesquisas que envolvem coleta de dados de seres humanos, contudo o principal risco deste trabalho está relacionado a possibilidade do vazamento de informações sobre os juízes, desse modo, serão codificados os nomes dos envolvidos minimizando o risco de exposição. Ressaltando ainda, a possibilidade de desistência ou não aceitação dos participantes da pesquisa. 
+
+Você será esclarecido(a) sobre a pesquisa em qualquer aspecto que desejar. Você é livre para recusar-se a participar, retirar seu consentimento ou interromper a participação a qualquer momento. A sua participação é voluntária (sem compensação financeira) e a recusa em participar não irá acarretar qualquer penalidade ou perda de benefícios.
+
+Os pesquisadores irão tratar a sua identidade com padrões profissionais de sigilo. Os resultados da pesquisa serão enviados para você e permanecerão confidenciais. Seu nome ou o material que indique a sua participação não será liberado sem a sua permissão. Você não será identificado(a) em nenhuma publicação que possa resultar deste estudo. Uma cópia deste consentimento informado será arquivada e outra será fornecida a você. 
+
+A participação no estudo não acarretará custos para você e não será disponível nenhuma compensação financeira adicional. 
+
+Eu, _________________________________________________ fui informada (o) dos objetivos da pesquisa acima de maneira clara e detalhada e esclareci minhas dúvidas. Sei que em qualquer momento poderei solicitar novas informações e motivar minha decisão se assim o desejar. A professora orientadora Priscila Xavier de Araujo certificou-me de que todos os dados desta pesquisa serão confidenciais.
+
+Em caso de dúvidas poderei contactar a professora orientadora Priscila Xavier de Araujo, (94) 99134-7953, priscila.araujo@uepa.br, ou os pesquisadores auxiliares Fernanda Araujo Santos, (91) 981666610, fernandasantosdermato@gmail.com ou o Comitê de Ética em Pesquisa em seres humanos, situado no campus II da UEPA, CCBS, Travessa Perebebuí, 2623- Marco, cep 66095-662. Telefone: (91) 3131-1781.  E.mail: cepccbs@uepa.br.
+
+Declaro que concordo em participar desse estudo. Recebi uma cópia deste termo de consentimento livre e esclarecido e me foi dada a oportunidade de ler e esclarecer as minhas dúvidas.
+
+Belém, ____ de __________ de 20___
+
+                                            ________________________________               
+
+Assinatura 
+
+___________________________________
+
+Priscila Xavier de Araujo
+
+Pesquisadora Responsável
+
+RG: 600468 SSP-TO CPF: 01439145105
+
+______________________________________
+
+Fernanda Araujo Santos
+
+Pesquisadora auxiliar
+
+RG: 4492652 SSP - PA CPF: 77516079200
+
+CEL: (91) 981666610
+
+Comitê de Ética em Pesquisa em Seres Humanos da Universidade do Estado do Pará do Campus II, situado no 1º andar da biblioteca do Campus II da Universidade do Estado do Pará. Travessa Perebebui, 2623, Bairro Marco, Belém-Pará 66087-670. Telefone: (91) 3131-1781. Pesquisador responsável: Priscila Xavier de Araujo (94) 99134-7953. Assistente: Fernanda Araujo Santos (91) 98166-6610.
+
+ANEXO A -   CARTA DE APRESENTAÇÃO
+
+Belém – PA, ____ de ____________ de 2026
+
+Apresento ao Comitê de Ética em Pesquisa, o Projeto com o título “TELEMONITORAMENTO PÓS-OPERATÓRIO DE CIRURGIAS DERMATOLÓGICAS: DESENVOLVIMENTO DE UM APLICATIVO PARA SEGUIMENTO REMOTO DE PACIENTES ATENDIDOS EM CENTROS DE REFERÊNCIA”, cuja mestranda Fernanda Araujo Santos regularmente matriculada no Programa de Pós-graduação em Pesquisa e Cirurgia Experimental da Universidade do Estado do Pará (UEPA), sob minha orientação, para parecer ético desse comitê. Em anexo, a carta de aceite de orientação do projeto.
+
+Atenciosamente,
+
+_____________________________________
+
+Priscila Xavier de Araujo
+
+Pesquisadora Responsável
+
+RG: 600468 CPF: 01439145105
+
+ANEXO B - TERMO DE ACEITE DO ORIENTADOR
+
+Eu, Professora Priscila Xavier de Araujo, farmacêutica e doutora em farmacologia, docente do Curso de graduação em Medicina, da Universidade do Estado do Pará, aceito orientar o trabalho intitulado “TELEMONITORAMENTO PÓS-OPERATÓRIO DE CIRURGIAS DERMATOLÓGICAS: DESENVOLVIMENTO DE UM APLICATIVO PARA SEGUIMENTO REMOTO DE PACIENTES ATENDIDOS EM CENTROS DE REFERÊNCIA” de autoria de Fernanda Araujo Santos.
+
+Declaro ter total conhecimento das normas de realização de trabalhos científicos vigentes, segundo a Comissão Nacional de Ética em Pesquisa CONEP. Declaro ainda ter conhecimento do conteúdo do anteprojeto ora entregue.
+
+Belém, _________de ____________de 20___.
+
+__________________________________________________
+
+Priscila Xavier de Araujo
+
+Pesquisadora Responsável
+
+RG: 600468 CPF: 01439145105
+
+ANEXO C - DECLARAÇÃO DE COMPROMISSO DO PESQUISADOR
+
+Eu, Priscila Xavier de Araujo portador do RG 600468/SSP-TO e CPF 01439145105, pesquisador responsável do projeto de pesquisa intitulado “TELEMONITORAMENTO PÓS-OPERATÓRIO DE CIRURGIAS DERMATOLÓGICAS: DESENVOLVIMENTO DE UM APLICATIVO PARA SEGUIMENTO REMOTO DE PACIENTES ATENDIDOS EM CENTROS DE REFERÊNCIA”, comprometo-me a utilizar todos os dados coletados, unicamente, para o projeto acima mencionado, bem como: 
+
+Garantir que a pesquisa somente será iniciada após a avaliação e aprovação do Comitê de Ética em Pesquisa (CEP) da Universidade do Estado do Pará, Campus II/CCBS, respeitando assim, os preceitos éticos e legais exigidos pelas Resoluções vigentes, em especial a 466/12 do Conselho Nacional de Saúde do Ministério da Saúde;
+
+Desenvolver o projeto de pesquisa conforme delineado;
+
+Apresentar dados solicitados pelo CEP-CCBS ou pela CONEP a qualquer momento;
+
+Preservar o sigilo e a privacidade dos participantes cujos dados serão coletados e estudados;
+
+Assegurar que os dados coletados serão utilizados, única e exclusivamente, para a execução do projeto de pesquisa em questão;
+
+Assegurar que os resultados da pesquisa somente serão divulgados de forma anônima;
+
+Encaminhar os resultados da pesquisa para publicação, com os devidos créditos aos pesquisadores associados e ao pessoal técnico integrante do projeto;
+
+Justificar fundamentadamente, perante o CEP-CCBS ou a CONEP, a interrupção do projeto ou a não publicação dos resultados.
+
+Elaborar e apresentar os relatórios parciais e final ao CEP;
+
+Manter os dados da pesquisa em arquivo, físico e digital, sob minha guarda e responsabilidade, por um período de 5 (cinco) anos após o término da pesquisa.
+
+Belém, _________de ____________de 20___.
+
+__________________________________________________
+
+Priscila Xavier de Araujo
+
+Pesquisadora Responsável
+
+RG: 600468 CPF: 01439145105

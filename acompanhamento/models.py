@@ -49,6 +49,8 @@ class Paciente(models.Model):
         LocalAtendimento, on_delete=models.SET_NULL, null=True, related_name='pacientes'
     )
     senha_hash = models.CharField(max_length=255)
+    termo_aceito = models.BooleanField(default=False)
+    termo_aceito_em = models.DateTimeField(blank=True, null=True)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -67,6 +69,7 @@ class Cirurgia(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, related_name='cirurgias')
     medico = models.ForeignKey(Medico, on_delete=models.SET_NULL, null=True, related_name='cirurgias')
     tipo_cirurgia = models.CharField(max_length=255)
+    localizacao_lesao = models.CharField(max_length=200, blank=True, default='')
     local_atendimento = models.ForeignKey(
         LocalAtendimento, on_delete=models.SET_NULL, null=True, related_name='cirurgias'
     )
@@ -86,6 +89,11 @@ class EtapaAcompanhamento(models.Model):
         ('atrasado', 'Atrasado'),
         ('concluido', 'Concluído'),
     ]
+    CLASSIFICACAO_CHOICES = [
+        ('favoravel', 'Favorável'),
+        ('atencao', 'Requer atenção'),
+        ('complicacao', 'Complicação'),
+    ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cirurgia = models.ForeignKey(Cirurgia, on_delete=models.CASCADE, related_name='etapas')
@@ -95,6 +103,14 @@ class EtapaAcompanhamento(models.Model):
     horario_lembrete = models.TimeField(default='08:00')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='bloqueado')
     data_envio_real = models.DateTimeField(blank=True, null=True)
+    parecer_medico = models.TextField(blank=True, null=True)
+    classificacao_cicatrizacao = models.CharField(
+        max_length=20, choices=CLASSIFICACAO_CHOICES, blank=True, null=True
+    )
+    avaliado_por = models.ForeignKey(
+        Medico, on_delete=models.SET_NULL, null=True, blank=True, related_name='etapas_avaliadas'
+    )
+    avaliado_em = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         ordering = ['dia_pos_operatorio']
@@ -106,8 +122,14 @@ class EtapaAcompanhamento(models.Model):
 class EnvioFoto(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     etapa = models.ForeignKey(EtapaAcompanhamento, on_delete=models.CASCADE, related_name='fotos')
-    url_foto = models.URLField()
+    imagem = models.ImageField(upload_to='fotos_cicatrizes/%Y/%m/%d/', blank=True, null=True)
+    url_foto = models.CharField(max_length=500, blank=True, default='')
     data_envio = models.DateTimeField(auto_now_add=True)
+
+    def get_foto_url(self):
+        if self.imagem:
+            return self.imagem.url
+        return self.url_foto or ''
 
     def __str__(self):
         return f"Foto - {self.etapa}"
@@ -181,6 +203,8 @@ class Mensagem(models.Model):
     remetente_id = models.UUIDField()
     conteudo = models.TextField()
     anexo_url = models.URLField(blank=True, null=True)
+    anexo_arquivo = models.FileField(upload_to='chat/%Y/%m/%d/', blank=True, null=True)
+    is_emergencia = models.BooleanField(default=False)
     enviado_em = models.DateTimeField(auto_now_add=True)
     lida = models.BooleanField(default=False)
 
@@ -236,3 +260,9 @@ class VideoEducativo(models.Model):
 
     def __str__(self):
         return self.titulo
+
+    @property
+    def duracao_formatada(self):
+        minutos = self.duracao_segundos // 60
+        segundos = self.duracao_segundos % 60
+        return f"{minutos}:{segundos:02d}"

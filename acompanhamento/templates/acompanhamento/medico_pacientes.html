@@ -1,0 +1,167 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Pacientes{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho Superior -->
+<div class="app-header">
+  <a href="{% url 'acompanhamento:medico_dashboard' %}" class="header-back-btn" aria-label="Voltar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  
+  <div class="header-title-center">
+    <div style="font-size: 17px; font-weight: 800; color: var(--secondary);">Pacientes</div>
+    <div class="header-title-sub">{{ pacientes|length }} paciente{{ pacientes|length|pluralize }} no sistema</div>
+  </div>
+
+  <a href="{% url 'acompanhamento:medico_nova_cirurgia' %}" style="width: 32px; height: 32px; border-radius: 50%; background-color: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; text-decoration: none;" title="Nova Cirurgia">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  </a>
+</div>
+
+<div class="app-content" style="padding: 14px 16px 90px;">
+  <!-- Barra de Busca Rápida -->
+  <div style="margin-bottom: 16px; position: relative;">
+    <div style="position: absolute; left: 12px; top: 12px; color: var(--text-muted);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
+    <input type="text" id="busca-pacientes" placeholder="Buscar por nome, CPF ou município..." oninput="filtrarPacientes()" style="width: 100%; padding: 11px 14px 11px 38px; font-size: 14px; border: 1.5px solid var(--border); border-radius: var(--radius-md); background: white; outline: none;">
+  </div>
+
+  <!-- Lista de Pacientes -->
+  <div id="pacientes-lista" style="display: flex; flex-direction: column; gap: 12px;">
+    {% if pacientes %}
+      {% for pac in pacientes %}
+        <div class="card card-paciente" data-texto="{{ pac.nome_completo|lower }} {{ pac.cpf }} {{ pac.municipio|lower }}" style="padding: 14px 16px; transition: transform 0.15s ease;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <!-- Avatar Inicial -->
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--secondary-light), #DCEAF8); color: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; flex-shrink: 0;">
+              {{ pac.nome_completo|slice:":1"|upper }}
+            </div>
+
+            <!-- Dados -->
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 15px; font-weight: 800; color: var(--secondary); line-height: 1.2; margin-bottom: 2px;">
+                {{ pac.nome_completo }}
+              </div>
+              
+              <div style="font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 6px;">
+                <span>📍 {{ pac.municipio|default:"Pará" }}</span>
+                <span>•</span>
+                <span>CPF: {{ pac.cpf }}</span>
+              </div>
+
+              <!-- Cirurgias Ativas do Paciente -->
+              {% with cirurgias=pac.cirurgias.all %}
+                {% if cirurgias %}
+                  {% for c in cirurgias %}
+                    <div style="background-color: #F8FAFC; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; margin-top: 6px; font-size: 12px;">
+                      <div style="font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ✂️ {{ c.tipo_cirurgia }}
+                      </div>
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                        <span style="color: var(--text-muted); font-size: 11px;">
+                          Cirurgia em: {{ c.data_cirurgia|date:"d/m/Y" }}
+                        </span>
+                        <span class="step-badge" style="
+                          {% if c.status == 'a_ser_avaliado' %}background-color: #FED7AA; color: #C2410C;
+                          {% elif c.status == 'em_acompanhamento' %}background-color: #BAE6FD; color: #0284C7;
+                          {% elif c.status == 'alta' %}background-color: #BBF7D0; color: #166534;
+                          {% else %}background-color: #E2E8F0; color: #475569;{% endif %}
+                          font-size: 10px; font-weight: 700; padding: 2px 8px;">
+                          {{ c.get_status_display }}
+                        </span>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <div style="margin-top: 6px;">
+                    <a href="{% url 'acompanhamento:medico_nova_cirurgia' %}?paciente_id={{ pac.id }}" style="font-size: 11px; font-weight: 700; color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 3px;">
+                      + Vincular Cirurgia Dermatológica
+                    </a>
+                  </div>
+                {% endif %}
+              {% endwith %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div style="text-align: center; padding: 40px 16px;">
+        <p style="color: var(--text-muted); font-size: 14px;">Nenhum paciente cadastrado ainda.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block bottom_nav %}
+<div class="bottom-nav">
+  <a href="{% url 'acompanhamento:medico_dashboard' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <span>Dashboard</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_pacientes' %}" class="nav-item active">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </svg>
+    <span>Pacientes</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_mensagens' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <span>Mensagens</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_alertas' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+    </svg>
+    <span>Alertas</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_perfil' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function filtrarPacientes() {
+    const termo = document.getElementById('busca-pacientes').value.toLowerCase();
+    const cards = document.querySelectorAll('.card-paciente');
+    cards.forEach(card => {
+      const texto = card.getAttribute('data-texto') || '';
+      if (texto.includes(termo)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script>
+{% endblock %}

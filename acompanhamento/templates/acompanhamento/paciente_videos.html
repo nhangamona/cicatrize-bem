@@ -1,0 +1,308 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Vídeos e Orientações{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho Superior -->
+<div class="app-header">
+  <a href="{% url 'acompanhamento:paciente_dashboard' %}" class="header-back-btn" aria-label="Voltar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  
+  <div class="header-title-center">
+    <div style="font-size: 18px; font-weight: 800; color: var(--secondary);">Vídeos</div>
+  </div>
+
+  <div style="width: 32px;"></div>
+</div>
+
+<div class="app-content" style="padding-bottom: 90px;">
+  <!-- Subtítulo -->
+  <p style="font-size: 13px; color: var(--text-muted); text-align: center; margin-bottom: 16px;">
+    Assista aos vídeos e aprenda como cuidar da sua ferida.
+  </p>
+
+  <!-- Filtros Horizontais -->
+  <div class="filter-pills" style="margin-bottom: 20px;">
+    <a href="{% url 'acompanhamento:paciente_videos' %}?categoria=todos" class="pill-btn {% if not categoria_ativa or categoria_ativa == 'todos' %}active{% endif %}">
+      Todos
+    </a>
+    <a href="{% url 'acompanhamento:paciente_videos' %}?categoria=curativos" class="pill-btn {% if categoria_ativa == 'curativos' %}active{% endif %}">
+      Curativos
+    </a>
+    <a href="{% url 'acompanhamento:paciente_videos' %}?categoria=cuidados" class="pill-btn {% if categoria_ativa == 'cuidados' %}active{% endif %}">
+      Cuidados
+    </a>
+    <a href="{% url 'acompanhamento:paciente_videos' %}?categoria=complicacoes" class="pill-btn {% if categoria_ativa == 'complicacoes' %}active{% endif %}">
+      Complicações
+    </a>
+    <a href="{% url 'acompanhamento:paciente_videos' %}?categoria=outros" class="pill-btn {% if categoria_ativa == 'outros' %}active{% endif %}">
+      Outros
+    </a>
+  </div>
+
+  <!-- Lista de Vídeos -->
+  <div class="videos-list" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+    {% if videos %}
+      {% for video in videos %}
+        <div class="video-card" onclick="reproduzirVideo('{{ video.titulo }}', '{{ video.url_video }}')" style="cursor: pointer;">
+          <!-- Thumbnail com Duração e Play -->
+          <div class="video-thumb-container">
+            {% if video.thumbnail_url %}
+              <img src="{{ video.thumbnail_url }}" alt="{{ video.titulo }}" class="video-thumb-img">
+            {% else %}
+              <img src="{% static 'img/imagem5.jpg' %}" alt="{{ video.titulo }}" class="video-thumb-img">
+            {% endif %}
+            <div class="video-play-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </div>
+            <div class="video-duration-badge">
+              {{ video.duracao_formatada }}
+            </div>
+          </div>
+
+          <!-- Informações do Vídeo -->
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-main); line-height: 1.3; margin-bottom: 4px;">
+              {{ video.titulo }}
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); line-height: 1.3; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              {{ video.descricao }}
+            </div>
+            <div>
+              {% if video.categoria == 'curativos' %}
+                <span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 10px; padding: 2px 8px;">Curativos</span>
+              {% elif video.categoria == 'complicacoes' %}
+                <span class="step-badge" style="background-color: #FEE2E2; color: #B91C1C; font-size: 10px; padding: 2px 8px;">Complicações</span>
+              {% else %}
+                <span class="step-badge" style="background-color: #E0F2F1; color: #00796B; font-size: 10px; padding: 2px 8px;">Cuidados gerais</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Seta indicativa -->
+          <div style="color: var(--text-muted); flex-shrink: 0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <!-- Itens de demonstração padrão (como no mockup imagem4.jpg) -->
+      <div class="video-card" onclick="reproduzirDemo('Cuidados importantes no pós-operatório')" style="cursor: pointer;">
+        <div class="video-thumb-container">
+          <img src="{% static 'img/imagem5.jpg' %}" alt="Cuidados importantes" class="video-thumb-img">
+          <div class="video-play-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+          <div class="video-duration-badge">2:20</div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text-main); line-height: 1.3; margin-bottom: 4px;">
+            Cuidados importantes no pós-operatório
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.3; margin-bottom: 6px;">
+            Orientações gerais para evitar complicações e acelerar a recuperação.
+          </div>
+          <div>
+            <span class="step-badge" style="background-color: #E0F2F1; color: #00796B; font-size: 10px; padding: 2px 8px;">Cuidados gerais</span>
+          </div>
+        </div>
+        <div style="color: var(--text-muted); flex-shrink: 0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <div class="video-card" onclick="reproduzirDemo('Como realizar o curativo')" style="cursor: pointer;">
+        <div class="video-thumb-container">
+          <img src="{% static 'img/imagem1.jpeg' %}" alt="Como realizar curativo" class="video-thumb-img">
+          <div class="video-play-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+          <div class="video-duration-badge">3:10</div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text-main); line-height: 1.3; margin-bottom: 4px;">
+            Como realizar o curativo
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.3; margin-bottom: 6px;">
+            Veja como fazer o curativo de forma correta e segura.
+          </div>
+          <div>
+            <span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 10px; padding: 2px 8px;">Curativos</span>
+          </div>
+        </div>
+        <div style="color: var(--text-muted); flex-shrink: 0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <div class="video-card" onclick="reproduzirDemo('Complicações comuns após uma cirurgia')" style="cursor: pointer;">
+        <div class="video-thumb-container">
+          <img src="{% static 'img/imagem6.jpeg' %}" alt="Complicações comuns" class="video-thumb-img">
+          <div class="video-play-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+          <div class="video-duration-badge">2:45</div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text-main); line-height: 1.3; margin-bottom: 4px;">
+            Complicações comuns após uma cirurgia
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.3; margin-bottom: 6px;">
+            Saiba identificar sinais de alerta e quando procurar atendimento.
+          </div>
+          <div>
+            <span class="step-badge" style="background-color: #FEE2E2; color: #B91C1C; font-size: 10px; padding: 2px 8px;">Complicações</span>
+          </div>
+        </div>
+        <div style="color: var(--text-muted); flex-shrink: 0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <div class="video-card" onclick="reproduzirDemo('Exposição ao sol: quando é segura?')" style="cursor: pointer;">
+        <div class="video-thumb-container">
+          <img src="{% static 'img/imagem7.jpeg' %}" alt="Exposição ao sol" class="video-thumb-img">
+          <div class="video-play-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+          <div class="video-duration-badge">1:30</div>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text-main); line-height: 1.3; margin-bottom: 4px;">
+            Exposição ao sol: quando é segura?
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); line-height: 1.3; margin-bottom: 6px;">
+            Entenda os cuidados com o sol durante o período de recuperação.
+          </div>
+          <div>
+            <span class="step-badge" style="background-color: #E0F2F1; color: #00796B; font-size: 10px; padding: 2px 8px;">Cuidados gerais</span>
+          </div>
+        </div>
+        <div style="color: var(--text-muted); flex-shrink: 0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Card Informativo no Rodapé -->
+  <div style="background-color: #F0FDF9; border: 1px solid #CCFBF1; border-radius: var(--radius-md); padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
+    <div style="color: #0F766E; flex-shrink: 0; margin-top: 2px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+    </div>
+    <div>
+      <div style="font-size: 13px; font-weight: 700; color: #115E59; margin-bottom: 2px;">Importante</div>
+      <div style="font-size: 12px; color: #0F766E; line-height: 1.4;">
+        As orientações dos vídeos complementam as recomendações do seu médico. Em caso de dúvidas, entre em contato com a equipe.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Exibição do Vídeo -->
+<div id="video-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; padding: 20px;">
+  <div style="background: white; border-radius: var(--radius-lg); max-width: 440px; width: 100%; overflow: hidden; box-shadow: var(--shadow-lg);">
+    <div style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border);">
+      <div id="modal-video-title" style="font-size: 14px; font-weight: 700; color: var(--secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px;"></div>
+      <button onclick="fecharVideoModal()" style="background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-muted);">✕</button>
+    </div>
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; background: #000;">
+      <iframe id="modal-iframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+    </div>
+    <div style="padding: 12px 16px; text-align: right;">
+      <button onclick="fecharVideoModal()" class="btn-primary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; width: auto;">Fechar</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block bottom_nav %}
+<div class="bottom-nav">
+  <a href="{% url 'acompanhamento:paciente_dashboard' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <span>Início</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:paciente_dashboard' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+      <path d="M7 15h0M2 9.5h20"></path>
+    </svg>
+    <span>Envios</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:paciente_videos' %}" class="nav-item active">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+    </svg>
+    <span>Orientações</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:paciente_perfil' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function reproduzirVideo(titulo, url) {
+    document.getElementById('modal-video-title').innerText = titulo;
+    let embedUrl = url;
+    if (url.includes('youtube.com/watch?v=')) {
+      embedUrl = url.replace('watch?v=', 'embed/');
+    } else if (url.includes('youtu.be/')) {
+      embedUrl = url.replace('youtu.be/', 'youtube.com/embed/');
+    }
+    document.getElementById('modal-iframe').src = embedUrl;
+    document.getElementById('video-modal').style.display = 'flex';
+  }
+
+  function reproduzirDemo(titulo) {
+    document.getElementById('modal-video-title').innerText = titulo;
+    document.getElementById('modal-iframe').src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+    document.getElementById('video-modal').style.display = 'flex';
+  }
+
+  function fecharVideoModal() {
+    document.getElementById('modal-iframe').src = "";
+    document.getElementById('video-modal').style.display = 'none';
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,450 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Painel Médico{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho do Médico -->
+<div class="doctor-header-card" style="padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
+  <div style="display: flex; align-items: center; gap: 12px;">
+    <!-- Menu Hambúrguer -->
+    <button type="button" style="background: none; border: none; cursor: pointer; color: var(--text-main); padding: 4px;" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Avatar -->
+    <div style="width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary-light); flex-shrink: 0; background-color: var(--secondary-light);">
+      <img src="{% static 'img/imagem3.jpeg' %}" alt="{{ medico.nome_completo }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=150';">
+    </div>
+
+    <!-- Dados do Médico -->
+    <div>
+      <div style="font-size: 16px; font-weight: 800; color: var(--secondary); line-height: 1.2;">
+        {{ medico.nome_completo|default:"Dra. Fernanda Santos" }}
+      </div>
+      <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">
+        Dermatologista
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 2px; margin-top: 1px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        Serviço de Dermatologia da Universidade do Estado do Pará
+      </div>
+    </div>
+  </div>
+
+  <!-- Sino com Notificações -->
+  <div style="position: relative; cursor: pointer; padding: 6px;">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-main);">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+    </svg>
+    {% if notificacoes_count > 0 %}
+      <span style="position: absolute; top: 2px; right: 2px; background-color: var(--primary); color: white; font-size: 10px; font-weight: 700; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
+        {{ notificacoes_count }}
+      </span>
+    {% else %}
+      <span style="position: absolute; top: 2px; right: 2px; background-color: #0284C7; color: white; font-size: 10px; font-weight: 700; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
+        3
+      </span>
+    {% endif %}
+  </div>
+</div>
+
+<div class="app-content" style="padding: 16px 14px 90px;">
+  <!-- Cards de Métricas Rápidas -->
+  <div class="metrics-grid" style="margin-bottom: 16px;">
+    <!-- Card Laranja: A serem avaliados -->
+    <div class="metric-card orange" style="padding: 12px 14px;">
+      <div style="width: 36px; height: 36px; border-radius: 50%; background-color: #FED7AA; display: flex; align-items: center; justify-content: center; color: #EA580C; flex-shrink: 0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+      </div>
+      <div>
+        <div class="metric-number" style="color: #C2410C;">
+          {{ total_a_avaliar|default:"3" }}
+        </div>
+        <div class="metric-label">
+          Pacientes<br>a serem avaliados
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Azul: Em acompanhamento -->
+    <div class="metric-card blue" style="padding: 12px 14px;">
+      <div style="width: 36px; height: 36px; border-radius: 50%; background-color: #BAE6FD; display: flex; align-items: center; justify-content: center; color: #0284C7; flex-shrink: 0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <div>
+        <div class="metric-number" style="color: #0369A1;">
+          {{ total_em_acompanhamento|default:"8" }}
+        </div>
+        <div class="metric-label">
+          Pacientes em<br>acompanhamento
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de Pesquisa e Filtros -->
+  <form method="GET" action="{% url 'acompanhamento:medico_dashboard' %}" style="margin-bottom: 14px;">
+    <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+      <div class="input-with-icon" style="flex: 1;">
+        <span class="input-icon-left" style="left: 12px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input type="text" name="busca" value="{{ busca }}" class="form-input" style="padding-left: 38px; padding-top: 10px; padding-bottom: 10px; font-size: 13px;" placeholder="Buscar paciente...">
+      </div>
+
+      <button type="button" class="btn-secondary-outline" style="width: auto; padding: 8px 14px; font-size: 13px; display: flex; align-items: center; gap: 6px; border-color: var(--border); color: var(--text-main); background: #FFFFFF;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="4" y1="21" x2="4" y2="14"></line>
+          <line x1="4" y1="10" x2="4" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12" y2="3"></line>
+          <line x1="20" y1="21" x2="20" y2="16"></line>
+          <line x1="20" y1="12" x2="20" y2="3"></line>
+          <line x1="1" y1="14" x2="7" y2="14"></line>
+          <line x1="9" y1="8" x2="15" y2="8"></line>
+          <line x1="17" y1="16" x2="23" y2="16"></line>
+        </svg>
+        Filtros
+      </button>
+    </div>
+
+    <!-- Ordenação -->
+    <div style="display: flex; align-items: center; gap: 8px; overflow-x: auto; padding-bottom: 4px;">
+      <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); white-space: nowrap;">Organizar por:</span>
+      <a href="?ordem=data_cirurgia{% if busca %}&busca={{ busca }}{% endif %}" class="pill-btn {% if not ordem or ordem == 'data_cirurgia' %}active{% endif %}" style="font-size: 11px; padding: 4px 10px;">
+        Data da cirurgia ↕
+      </a>
+      <a href="?ordem=nome_paciente{% if busca %}&busca={{ busca }}{% endif %}" class="pill-btn {% if ordem == 'nome_paciente' %}active{% endif %}" style="font-size: 11px; padding: 4px 10px;">
+        Nome do paciente ↕
+      </a>
+      <a href="?ordem=nome_cirurgiao{% if busca %}&busca={{ busca }}{% endif %}" class="pill-btn {% if ordem == 'nome_cirurgiao' %}active{% endif %}" style="font-size: 11px; padding: 4px 10px;">
+        Nome do cirurgião ↕
+      </a>
+    </div>
+  </form>
+
+  <!-- SEÇÃO 1: A serem avaliados -->
+  <div style="margin-bottom: 22px;">
+    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2.5">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <h3 style="font-size: 14px; font-weight: 800; color: #C2410C;">
+        A serem avaliados ({{ total_a_avaliar|default:"3" }})
+      </h3>
+    </div>
+
+    <div style="background-color: #FFFDF9; border: 1px solid #FED7AA; border-radius: var(--radius-md); overflow-x: auto;">
+      <table class="patient-table" style="min-width: 580px;">
+        <thead>
+          <tr style="background-color: #FFF7ED;">
+            <th style="color: #9A3412;">Data da cirurgia</th>
+            <th style="color: #9A3412;">Paciente</th>
+            <th style="color: #9A3412;">Município</th>
+            <th style="color: #9A3412;">Cirurgia realizada</th>
+            <th style="color: #9A3412;">Operado por</th>
+            <th style="color: #9A3412;">Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if a_ser_avaliados %}
+            {% for c in a_ser_avaliados %}
+              <tr class="patient-row" onclick="window.location.href='{% if c.etapa_pendente_avaliacao %}{% url 'acompanhamento:medico_avaliacao' c.etapa_pendente_avaliacao.id %}{% else %}#{% endif %}'">
+                <td style="white-space: nowrap; font-size: 12px;">📅 {{ c.data_cirurgia|date:"d/m/Y" }}</td>
+                <td style="font-weight: 700; color: var(--text-main);">{{ c.paciente.nome_completo }}</td>
+                <td style="color: var(--text-muted); font-size: 12px;">{{ c.paciente.municipio|default:"PA" }}</td>
+                <td style="font-size: 12px;">{{ c.tipo_cirurgia }}</td>
+                <td style="font-size: 12px; color: var(--text-muted);">{{ c.medico.nome_completo|default:"Equipe UEPA" }}</td>
+                <td>
+                  {% if c.status_tipo == 'em_dia' %}
+                    <span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 11px;">✓ Em dia</span>
+                  {% else %}
+                    <span class="step-badge" style="background-color: #FFEDD5; color: #C2410C; font-size: 11px;">
+                      🕒 Pendente {{ c.status_label }}
+                    </span>
+                  {% endif %}
+                </td>
+                <td style="color: var(--text-muted);">›</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <!-- Linhas de Demonstração Padrão (Fieis ao Mockup imagem3.jpeg) -->
+            <tr class="patient-row" onclick="alert('Abra a avaliação deste paciente para registrar o parecer clínico.')">
+              <td style="white-space: nowrap; font-size: 12px;">📅 10/05/2025</td>
+              <td style="font-weight: 700; color: var(--text-main);">Paulo Andrade</td>
+              <td style="color: var(--text-muted); font-size: 12px;">Tucuruí - PA</td>
+              <td style="font-size: 12px;">Retirada de CBC + Retalho de Avanço</td>
+              <td style="font-size: 12px; color: var(--text-muted);">Natalia Senado</td>
+              <td><span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 11px;">✓ Em dia</span></td>
+              <td style="color: var(--text-muted);">›</td>
+            </tr>
+            <tr class="patient-row" onclick="alert('Abra a avaliação deste paciente para registrar o parecer clínico.')">
+              <td style="white-space: nowrap; font-size: 12px;">📅 11/05/2025</td>
+              <td style="font-weight: 700; color: var(--text-main);">Larissa Sousa</td>
+              <td style="color: var(--text-muted); font-size: 12px;">Redenção - PA</td>
+              <td style="font-size: 12px;">Lobuloplastia</td>
+              <td style="font-size: 12px; color: var(--text-muted);">João Augusto</td>
+              <td><span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 11px;">✓ Em dia</span></td>
+              <td style="color: var(--text-muted);">›</td>
+            </tr>
+            <tr class="patient-row" onclick="alert('Abra a avaliação deste paciente para registrar o parecer clínico.')">
+              <td style="white-space: nowrap; font-size: 12px;">📅 12/05/2025</td>
+              <td style="font-weight: 700; color: var(--text-main);">André Carvalho</td>
+              <td style="color: var(--text-muted); font-size: 12px;">Capanema - PA</td>
+              <td style="font-size: 12px;">Cirurgia de Rinofima</td>
+              <td style="font-size: 12px; color: var(--text-muted);">Malu Garcia</td>
+              <td><span class="step-badge" style="background-color: #FFEDD5; color: #C2410C; font-size: 11px;">🕒 Pendente Atrasado 2 dias</span></td>
+              <td style="color: var(--text-muted);">›</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2: Em acompanhamento -->
+  <div style="margin-bottom: 22px;">
+    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2.5">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+      </svg>
+      <h3 style="font-size: 14px; font-weight: 800; color: #0369A1;">
+        Em acompanhamento ({{ total_em_acompanhamento|default:"8" }})
+      </h3>
+    </div>
+
+    <div style="background-color: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-md); overflow-x: auto;">
+      <table class="patient-table" style="min-width: 580px;">
+        <thead>
+          <tr style="background-color: #F8FAFC;">
+            <th>Data da cirurgia</th>
+            <th>Paciente</th>
+            <th>Município</th>
+            <th>Cirurgia realizada</th>
+            <th>Operado por</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if em_acompanhamento %}
+            {% for c in em_acompanhamento %}
+              <tr class="patient-row">
+                <td style="white-space: nowrap; font-size: 12px;">📅 {{ c.data_cirurgia|date:"d/m/Y" }}</td>
+                <td style="font-weight: 700; color: var(--text-main);">{{ c.paciente.nome_completo }}</td>
+                <td style="color: var(--text-muted); font-size: 12px;">{{ c.paciente.municipio|default:"PA" }}</td>
+                <td style="font-size: 12px;">{{ c.tipo_cirurgia }}</td>
+                <td style="font-size: 12px; color: var(--text-muted);">{{ c.medico.nome_completo|default:"Equipe UEPA" }}</td>
+                <td>
+                  {% if c.status_tipo == 'em_dia' %}
+                    <span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 11px;">✓ Em dia</span>
+                  {% else %}
+                    <span class="step-badge" style="background-color: #FFEDD5; color: #C2410C; font-size: 11px;">🕒 Pendente</span>
+                  {% endif %}
+                </td>
+                <td style="color: var(--text-muted);">›</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <!-- Demonstração Padrão imagem3.jpeg -->
+            <tr class="patient-row">
+              <td style="white-space: nowrap; font-size: 12px;">📅 05/05/2025</td>
+              <td style="font-weight: 700; color: var(--text-main);">Ana Maria Silva</td>
+              <td style="color: var(--text-muted); font-size: 12px;">Castanhal - PA</td>
+              <td style="font-size: 12px;">Retirada de CBC + enxerto no nariz</td>
+              <td style="font-size: 12px; color: var(--text-muted);">Natalia Morikawa</td>
+              <td><span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 11px;">✓ Em dia</span></td>
+              <td style="color: var(--text-muted);">›</td>
+            </tr>
+            <tr class="patient-row">
+              <td style="white-space: nowrap; font-size: 12px;">📅 06/05/2025</td>
+              <td style="font-weight: 700; color: var(--text-main);">Roberto Santos</td>
+              <td style="color: var(--text-muted); font-size: 12px;">Abaetetuba - PA</td>
+              <td style="font-size: 12px;">Cirurgia de Rinofima</td>
+              <td style="font-size: 12px; color: var(--text-muted);">João Augusto</td>
+              <td><span class="step-badge" style="background-color: #FFEDD5; color: #C2410C; font-size: 11px;">🕒 Pendente Atrasado 1 dia</span></td>
+              <td style="color: var(--text-muted);">›</td>
+            </tr>
+            <tr class="patient-row">
+              <td style="white-space: nowrap; font-size: 12px;">📅 07/05/2025</td>
+              <td style="font-weight: 700; color: var(--text-main);">Carla Lima</td>
+              <td style="color: var(--text-muted); font-size: 12px;">Paragominas - PA</td>
+              <td style="font-size: 12px;">Cantoplastia + Matricectomia</td>
+              <td style="font-size: 12px; color: var(--text-muted);">Geovanna Mourão</td>
+              <td><span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 11px;">✓ Em dia</span></td>
+              <td style="color: var(--text-muted);">›</td>
+            </tr>
+            <tr class="patient-row">
+              <td style="white-space: nowrap; font-size: 12px;">📅 08/05/2025</td>
+              <td style="font-weight: 700; color: var(--text-main);">José Ferreira</td>
+              <td style="color: var(--text-muted); font-size: 12px;">Marabá - PA</td>
+              <td style="font-size: 12px;">Retirada de CBC + Retalho de Avanço</td>
+              <td style="font-size: 12px; color: var(--text-muted);">Malu Garcia</td>
+              <td><span class="step-badge" style="background-color: #FFEDD5; color: #C2410C; font-size: 11px;">🕒 Pendente Atrasado 3 dias</span></td>
+              <td style="color: var(--text-muted);">›</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+
+      <div style="padding: 10px; text-align: center; border-top: 1px solid var(--border);">
+        <a href="javascript:void(0)" style="font-size: 12px; font-weight: 700; color: #0284C7; text-decoration: none;">
+          Ver todos os 8 em acompanhamento ∨
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 3: Alta -->
+  <div style="margin-bottom: 24px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5">
+          <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+          <line x1="4" y1="22" x2="4" y2="15"></line>
+        </svg>
+        <h3 style="font-size: 14px; font-weight: 800; color: #166534;">
+          Alta ({{ total_altas|default:"4" }})
+        </h3>
+      </div>
+
+      <button type="button" class="btn-secondary-outline" style="width: auto; padding: 4px 10px; font-size: 12px; border-color: var(--border); color: var(--text-main); display: inline-flex; align-items: center; gap: 4px; background: white;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="21 8 21 21 3 21 3 8"></polyline>
+          <rect x="1" y="3" width="22" height="5"></rect>
+          <line x1="10" y1="12" x2="14" y2="12"></line>
+        </svg>
+        Arquivar
+      </button>
+    </div>
+
+    <div style="background-color: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-md); overflow-x: auto;">
+      <table class="patient-table" style="min-width: 580px;">
+        <thead>
+          <tr style="background-color: #F8FAFC;">
+            <th>Data da cirurgia</th>
+            <th>Paciente</th>
+            <th>Município</th>
+            <th>Cirurgia realizada</th>
+            <th>Operado por</th>
+            <th>Data da alta</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Demonstração Alta imagem3.jpeg -->
+          <tr class="patient-row">
+            <td style="white-space: nowrap; font-size: 12px;">📅 15/04/2025</td>
+            <td style="font-weight: 700; color: var(--text-main);">Fernanda Braga</td>
+            <td style="color: var(--text-muted); font-size: 12px;">Bragança - PA</td>
+            <td style="font-size: 12px;">Retirada de CBC + enxerto no nariz</td>
+            <td style="font-size: 12px; color: var(--text-muted);">Natalia Morikawa</td>
+            <td style="font-size: 12px; color: #166534; font-weight: 600;">05/05/2025</td>
+            <td style="color: var(--text-muted);">›</td>
+          </tr>
+          <tr class="patient-row">
+            <td style="white-space: nowrap; font-size: 12px;">📅 18/04/2025</td>
+            <td style="font-weight: 700; color: var(--text-main);">Rafael Rocha</td>
+            <td style="color: var(--text-muted); font-size: 12px;">Itaituba - PA</td>
+            <td style="font-size: 12px;">Cantoplastia + Matricectomia</td>
+            <td style="font-size: 12px; color: var(--text-muted);">Geovanna Mourão</td>
+            <td style="font-size: 12px; color: #166534; font-weight: 600;">02/05/2025</td>
+            <td style="color: var(--text-muted);">›</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="padding: 10px; text-align: center; border-top: 1px solid var(--border);">
+        <a href="javascript:void(0)" style="font-size: 12px; font-weight: 700; color: #166534; text-decoration: none;">
+          Ver todos os 4 de alta ∨
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dica de Rodapé -->
+  <div style="background-color: #F0F9FF; border: 1px solid #BAE6FD; border-radius: var(--radius-md); padding: 12px 14px; display: flex; align-items: center; gap: 10px;">
+    <div style="color: #0284C7; flex-shrink: 0;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+    </div>
+    <div style="font-size: 12px; color: #0369A1; line-height: 1.3;">
+      <strong>Dica:</strong> toque em um paciente para visualizar as fotos enviadas, registrar avaliação e deixar orientações.
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block bottom_nav %}
+<!-- Barra Inferior do Médico -->
+<div class="bottom-nav">
+  <a href="{% url 'acompanhamento:medico_dashboard' %}" class="nav-item active">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <span>Dashboard</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_pacientes' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </svg>
+    <span>Pacientes</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_mensagens' %}" class="nav-item" style="position: relative;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <span class="nav-badge" style="background-color: var(--primary); top: -2px; right: 8px;">2</span>
+    <span>Mensagens</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_alertas' %}" class="nav-item" style="position: relative;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+    </svg>
+    <span class="nav-badge" style="background-color: #EA580C; top: -2px; right: 8px;">4</span>
+    <span>Alertas</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_perfil' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</div>
+{% endblock %}

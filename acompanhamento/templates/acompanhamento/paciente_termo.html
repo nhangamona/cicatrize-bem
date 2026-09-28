@@ -1,0 +1,60 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Termo de Consentimento{% endblock %}
+
+{% block content %}
+<div class="app-header">
+  <div style="width: 32px;"></div>
+  <div class="header-title-center" style="font-size: 17px; font-weight: 800;">Termo de Consentimento</div>
+  <div style="width: 32px;"></div>
+</div>
+
+<div class="app-content" style="padding-bottom: 30px;">
+  <div style="text-align: center; margin-bottom: 18px;">
+    <img src="{% static 'img/logo_cicatrizebem.png' %}" alt="Cicatrize Bem" style="height: 48px; width: auto; margin-bottom: 8px;">
+    <h2 style="font-size: 16px; font-weight: 700; color: var(--secondary);">Termo de Consentimento Livre e Esclarecido (TCLE)</h2>
+    <p style="font-size: 12px; color: var(--text-muted);">Serviço de Dermatologia da Universidade do Estado do Pará (UEPA)</p>
+  </div>
+
+  <div class="card" style="font-size: 13px; line-height: 1.6; color: #334155; max-height: 380px; overflow-y: auto; background-color: #FAFCFC; border: 1.5px solid var(--border); padding: 16px; margin-bottom: 20px;">
+    <p style="margin-bottom: 12px;"><strong>Prezado(a) Paciente,</strong></p>
+    
+    <p style="margin-bottom: 12px;">
+      Você está sendo convidado(a) a utilizar o sistema <strong>Cicatrize Bem</strong>, uma plataforma de telemonitoramento pós-operatório em cirurgia dermatológica desenvolvida pelo Programa de Mestrado em Cirurgia e Pesquisa Experimental (CIPE) da <strong>Universidade do Estado do Pará (UEPA)</strong>.
+    </p>
+
+    <h4 style="font-size: 13px; font-weight: 700; color: var(--secondary); margin-top: 10px; margin-bottom: 6px;">1. Objetivo do Acompanhamento Remoto</h4>
+    <p style="margin-bottom: 12px;">
+      O telemonitoramento visa acompanhar a cicatrização da sua ferida cirúrgica ao longo de 28 dias pós-operatórios (D0, D3, D7, D14 e D28), permitindo que você envie fotografias da lesão e responda a perguntas simples sobre sintomas (dor, sangramento, inchaço, secreção ou febre).
+    </p>
+
+    <h4 style="font-size: 13px; font-weight: 700; color: var(--secondary); margin-top: 10px; margin-bottom: 6px;">2. Sigilo Médico e Proteção de Dados (LGPD)</h4>
+    <p style="margin-bottom: 12px;">
+      Suas fotografias e informações clínicas serão tratadas com absoluto sigilo médico e confidencialidade, conforme as resoluções de Telemedicina do Conselho Federal de Medicina (CFM) e a Lei Geral de Proteção de Dados (LGPD). As imagens serão visualizadas exclusivamente pela equipe dermatológica responsável pelo seu cuidado.
+    </p>
+
+    <h4 style="font-size: 13px; font-weight: 700; color: var(--secondary); margin-top: 10px; margin-bottom: 6px;">3. Caráter Complementar e Emergências</h4>
+    <p style="margin-bottom: 12px;">
+      O telemonitoramento não substitui o atendimento presencial em situações de urgência. Caso sinta dor súbita intensa, sangramento incontrolável ou febre alta persistente, procure imediatamente a unidade de pronto atendimento mais próxima.
+    </p>
+
+    <h4 style="font-size: 13px; font-weight: 700; color: var(--secondary); margin-top: 10px; margin-bottom: 6px;">4. Voluntariedade</h4>
+    <p style="margin-bottom: 12px;">
+      Sua participação é inteiramente voluntária e gratuita, sem qualquer prejuízo ao seu tratamento e consultas presenciais no ambulatório de Dermatologia da UEPA.
+    </p>
+  </div>
+
+  <form method="POST" action="{% url 'acompanhamento:paciente_termo' %}">
+    {% csrf_token %}
+    <label style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 24px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-main);">
+      <input type="checkbox" id="concordo_check" required style="margin-top: 3px; accent-color: var(--primary); width: 18px; height: 18px;">
+      <span>Li e concordo com os termos de telemonitoramento e com o compartilhamento seguro de fotografias da ferida cirúrgica.</span>
+    </label>
+
+    <button type="submit" class="btn-primary" id="btn_concordar">
+      Concordar e Acessar o Sistema
+    </button>
+  </form>
+</div>
+{% endblock %}

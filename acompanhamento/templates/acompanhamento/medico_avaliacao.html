@@ -1,0 +1,198 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Avaliação do Paciente{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho Superior -->
+<div class="app-header">
+  <a href="{% url 'acompanhamento:medico_dashboard' %}" class="header-back-btn" aria-label="Voltar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  
+  <div class="header-title-center">
+    <div style="font-size: 17px; font-weight: 800; color: var(--secondary);">Avaliação do paciente</div>
+  </div>
+
+  <div style="width: 32px;"></div>
+</div>
+
+<div class="app-content" style="padding: 16px 14px 40px;">
+  <!-- Card com Dados do Paciente -->
+  <div style="margin-bottom: 14px;">
+    <h2 style="font-size: 18px; font-weight: 800; color: var(--secondary); margin-bottom: 2px;">
+      {{ paciente.nome_completo|default:"Paulo Andrade" }}
+    </h2>
+    
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500;">
+      {{ idade|default:"63" }} anos • Serviço de Dermatologia da UEPA • Operado por: {{ cirurgia.medico.nome_completo|default:"Dra. Natalia Senado" }}
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+      <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">
+        📅 Data da cirurgia: {{ cirurgia.data_cirurgia|date:"d/m/Y"|default:"10/05/2025" }}
+      </div>
+      <span class="step-badge" style="background-color: #E0F2FE; color: #0284C7; font-weight: 700; font-size: 11px;">
+        D{{ etapa.dia_pos_operatorio|default:"3" }} pós-operatório
+      </span>
+    </div>
+
+    <div style="font-size: 12px; color: var(--text-main); line-height: 1.3;">
+      <strong>Cirurgia realizada:</strong> {{ cirurgia.tipo_cirurgia|default:"Retalho de avanço para fechamento de defeito na região frontal" }}
+    </div>
+  </div>
+
+  <!-- Abas de Navegação Interna -->
+  <div style="display: flex; border-bottom: 1.5px solid var(--border); margin-bottom: 18px;">
+    <button type="button" class="tab-btn active" style="flex: 1; padding: 10px 0; border: none; background: none; font-size: 13px; font-weight: 700; color: var(--primary); border-bottom: 3px solid var(--primary); cursor: pointer;">
+      Avaliação
+    </button>
+    <button type="button" class="tab-btn" style="flex: 1; padding: 10px 0; border: none; background: none; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer;">
+      Histórico
+    </button>
+    <button type="button" class="tab-btn" style="flex: 1; padding: 10px 0; border: none; background: none; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer;">
+      Dados do paciente
+    </button>
+  </div>
+
+  <!-- Seção 1: Foto enviada pelo paciente -->
+  <div class="card" style="padding: 14px; margin-bottom: 18px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+          <circle cx="12" cy="13" r="4"></circle>
+        </svg>
+        Foto enviada pelo paciente
+      </div>
+      <span class="step-badge" style="background-color: #DCFCE7; color: #15803D; font-size: 10px; font-weight: 700;">
+        D{{ etapa.dia_pos_operatorio|default:"3" }}
+      </span>
+    </div>
+
+    <!-- Imagem da Lesão / Ferida -->
+    <div style="border-radius: var(--radius-md); overflow: hidden; background: #000; text-align: center; margin-bottom: 8px;">
+      {% if foto and foto.get_foto_url %}
+        <img src="{{ foto.get_foto_url }}" alt="Ferida operatória" style="width: 100%; height: auto; max-height: 280px; object-fit: cover; display: block;">
+      {% else %}
+        <img src="{% static 'img/imagem5.jpg' %}" alt="Foto frontal" style="width: 100%; height: auto; max-height: 280px; object-fit: cover; display: block;">
+      {% endif %}
+    </div>
+
+    <div style="font-size: 11px; color: var(--text-muted);">
+      Foto enviada em {{ etapa.data_envio_real|date:"d/m/Y às H:i"|default:"13/05/2025 às 08:35" }}
+    </div>
+  </div>
+
+  <!-- Seção 2: Anamnese respondida pelo paciente -->
+  <div class="card" style="padding: 14px; margin-bottom: 18px;">
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 12px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      Anamnese respondida pelo paciente
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid #F1F5F9;">
+        <span style="color: var(--text-main); font-weight: 500;">Está com dor?</span>
+        {% if anamnese %}
+          {% if anamnese.tem_dor or anamnese.intensidade_dor > 0 %}
+            <span style="color: #DC2626; font-weight: 700;">Sim ({{ anamnese.intensidade_dor }}/10)</span>
+          {% else %}
+            <span style="color: #16A34A; font-weight: 700;">Não (0/10)</span>
+          {% endif %}
+        {% else %}
+          <span style="color: #16A34A; font-weight: 700;">Não (0/10)</span>
+        {% endif %}
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid #F1F5F9;">
+        <span style="color: var(--text-main); font-weight: 500;">Teve sangramento?</span>
+        {% if anamnese and anamnese.ferida_sangrando %}
+          <span style="color: #DC2626; font-weight: 700;">Sim (leve)</span>
+        {% else %}
+          <span style="color: #DC2626; font-weight: 700;">Sim (leve)</span>
+        {% endif %}
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid #F1F5F9;">
+        <span style="color: var(--text-main); font-weight: 500;">Teve febre?</span>
+        <span style="color: var(--text-muted); font-weight: 600;">
+          {% if anamnese and anamnese.febre_calafrios %}Sim{% else %}Não{% endif %}
+        </span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">
+        <span style="color: var(--text-main); font-weight: 500;">Houve secreção no local?</span>
+        <span style="color: var(--text-muted); font-weight: 600;">
+          {% if anamnese and anamnese.secrecao_pus %}Sim{% else %}Não{% endif %}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção 3: Mensagem do paciente -->
+  <div class="card" style="padding: 14px; margin-bottom: 18px;">
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 10px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+      Mensagem do paciente
+    </div>
+
+    <!-- Balão de Mensagem -->
+    <div style="background-color: #F8FAFC; border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 4px; border: 1px solid var(--border);">
+      <p style="font-size: 13px; color: var(--text-main); line-height: 1.4; margin-bottom: 4px;">
+        {% if anamnese and anamnese.mensagem_opcional %}{{ anamnese.mensagem_opcional }}{% elif ultima_mensagem %}{{ ultima_mensagem.conteudo }}{% else %}Dra Fernanda, meus pontos romperam hoje. Preciso voltar na uepa?{% endif %}
+      </p>
+      <div style="text-align: right; font-size: 11px; color: var(--text-muted);">
+        Enviada em {{ etapa.data_envio_real|date:"d/m/Y às H:i"|default:"13/05/2025 às 08:42" }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção 4: Resposta ao paciente -->
+  <div class="card" style="padding: 14px; margin-bottom: 20px;">
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 12px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+      Resposta ao paciente
+    </div>
+
+    <form method="POST" action="{% url 'acompanhamento:medico_avaliacao' etapa.id %}">
+      {% csrf_token %}
+
+      <!-- Classificação clínica da cicatrização -->
+      <div style="margin-bottom: 12px;">
+        <label class="form-label" style="font-size: 12px; margin-bottom: 4px;">Classificação da cicatrização</label>
+        <select name="classificacao_cicatrizacao" class="form-select" style="font-size: 13px; padding: 8px 12px;">
+          <option value="favoravel" selected>Evolução Favorável (esperada)</option>
+          <option value="atencao">Requer Atenção (acompanhar próximo envio)</option>
+          <option value="complicacao">Suspeita de Complicação (solicitar retorno presencial)</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <textarea name="resposta" rows="3" class="form-textarea" placeholder="Escreva sua resposta..." style="font-size: 13px; padding: 10px 12px;" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary" style="padding: 12px; font-size: 14px; font-weight: 700; gap: 8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+        Enviar resposta
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

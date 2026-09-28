@@ -1,0 +1,123 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Cadastrar Nova Cirurgia{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho Superior -->
+<div class="app-header">
+  <a href="{% url 'acompanhamento:medico_dashboard' %}" class="header-back-btn" aria-label="Voltar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  
+  <div class="header-title-center">
+    <div style="font-size: 17px; font-weight: 800; color: var(--secondary);">Nova Cirurgia</div>
+  </div>
+
+  <div style="width: 32px;"></div>
+</div>
+
+<div class="app-content" style="padding: 16px 16px 40px;">
+  <!-- Card Explicativo do Protocolo -->
+  <div style="background-color: var(--primary-light); border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 20px;">
+    <div style="font-size: 13px; font-weight: 800; color: var(--primary-dark); margin-bottom: 3px; display: flex; align-items: center; gap: 6px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      Geração Automática do Protocolo
+    </div>
+    <div style="font-size: 12px; color: var(--primary-dark); line-height: 1.4;">
+      Ao salvar esta cirurgia, as 5 etapas de telemonitoramento (<strong>D0, D3, D7, D14 e D28</strong>) serão agendadas automaticamente para o paciente.
+    </div>
+  </div>
+
+  <!-- Formulário -->
+  <form method="POST" action="{% url 'acompanhamento:medico_nova_cirurgia' %}">
+    {% csrf_token %}
+
+    <!-- Paciente -->
+    <div class="form-group">
+      <label class="form-label" for="{{ form.paciente.id_for_label }}">
+        Paciente Operado(a) <span style="color: var(--danger);">*</span>
+      </label>
+      {{ form.paciente }}
+      {% if form.paciente.errors %}
+        <div style="color: var(--danger); font-size: 11px; margin-top: 4px;">{{ form.paciente.errors.0 }}</div>
+      {% endif %}
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+        Se o paciente ainda não tiver cadastro, registre-o primeiro na tela de cadastro.
+      </div>
+    </div>
+
+    <!-- Tipo de Cirurgia -->
+    <div class="form-group">
+      <label class="form-label" for="{{ form.tipo_cirurgia.id_for_label }}">
+        Procedimento Cirúrgico Realizado <span style="color: var(--danger);">*</span>
+      </label>
+      {{ form.tipo_cirurgia }}
+      {% if form.tipo_cirurgia.errors %}
+        <div style="color: var(--danger); font-size: 11px; margin-top: 4px;">{{ form.tipo_cirurgia.errors.0 }}</div>
+      {% endif %}
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+        Ex: Exérese de Carcinoma Basocelular + Retalho de Avanço
+      </div>
+    </div>
+
+    <!-- Localização da Lesão -->
+    <div class="form-group">
+      <label class="form-label" for="{{ form.localizacao_lesao.id_for_label }}">
+        Localização Anatômica da Lesão / Ferida <span style="color: var(--danger);">*</span>
+      </label>
+      {{ form.localizacao_lesao }}
+      {% if form.localizacao_lesao.errors %}
+        <div style="color: var(--danger); font-size: 11px; margin-top: 4px;">{{ form.localizacao_lesao.errors.0 }}</div>
+      {% endif %}
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+        Ex: Asa nasal direita, Região frontal, Região malar esquerda
+      </div>
+    </div>
+
+    <!-- Data da Cirurgia -->
+    <div class="form-group">
+      <label class="form-label" for="{{ form.data_cirurgia.id_for_label }}">
+        Data do Procedimento Cirúrgico <span style="color: var(--danger);">*</span>
+      </label>
+      {{ form.data_cirurgia }}
+      {% if form.data_cirurgia.errors %}
+        <div style="color: var(--danger); font-size: 11px; margin-top: 4px;">{{ form.data_cirurgia.errors.0 }}</div>
+      {% endif %}
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+        Esta data define o marco zero (D0) para o cálculo dos 28 dias.
+      </div>
+    </div>
+
+    <!-- Local de Atendimento -->
+    <div class="form-group" style="margin-bottom: 24px;">
+      <label class="form-label" for="{{ form.local_atendimento.id_for_label }}">
+        Serviço de Saúde / Local de Atendimento <span style="color: var(--danger);">*</span>
+      </label>
+      {{ form.local_atendimento }}
+      {% if form.local_atendimento.errors %}
+        <div style="color: var(--danger); font-size: 11px; margin-top: 4px;">{{ form.local_atendimento.errors.0 }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Botões -->
+    <button type="submit" class="btn-primary" style="margin-bottom: 12px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+        <polyline points="7 3 7 8 15 8"></polyline>
+      </svg>
+      Iniciar Acompanhamento Pós-Operatório
+    </button>
+
+    <a href="{% url 'acompanhamento:medico_dashboard' %}" class="btn-secondary-outline">
+      Cancelar
+    </a>
+  </form>
+</div>
+{% endblock %}

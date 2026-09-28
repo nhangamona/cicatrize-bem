@@ -1,0 +1,223 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Cadastro do Paciente{% endblock %}
+
+{% block content %}
+<div class="app-header">
+  <a href="{% url 'acompanhamento:login' %}" class="header-back-btn" aria-label="Voltar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  <div class="header-title-center" style="font-size: 18px; font-weight: 800;">Cadastro do paciente</div>
+  <div style="width: 32px;"></div>
+</div>
+
+<div class="app-content" style="padding-bottom: 30px;">
+  <!-- Header Icon + Instrução -->
+  <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding: 6px 0;">
+    <div style="width: 52px; height: 52px; border-radius: 50%; background-color: var(--primary); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </div>
+    <div style="font-size: 14px; font-weight: 600; color: var(--text-main); line-height: 1.3;">
+      Preencha seus dados para<br>criar sua conta
+    </div>
+  </div>
+
+  <form method="POST" action="{% url 'acompanhamento:cadastro_paciente' %}">
+    {% csrf_token %}
+
+    <!-- Nome completo -->
+    <div class="form-group">
+      <label class="form-label">Nome completo</label>
+      <div class="input-with-icon">
+        <span class="input-icon-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </span>
+        <input type="text" name="nome_completo" class="form-input" placeholder="Digite seu nome completo" required>
+      </div>
+    </div>
+
+    <!-- Cartão SUS e CPF em 2 colunas -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" class="form-group">
+      <div>
+        <label class="form-label" style="font-size: 12px;">Número do Cartão SUS</label>
+        <div class="input-with-icon">
+          <span class="input-icon-left" style="left: 10px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M7 15h0M2 9.5h20"/>
+            </svg>
+          </span>
+          <input type="text" name="cartao_sus" class="form-input" style="padding-left: 34px; font-size: 13px;" placeholder="Digite o número">
+        </div>
+      </div>
+
+      <div>
+        <label class="form-label" style="font-size: 12px;">CPF</label>
+        <div class="input-with-icon">
+          <span class="input-icon-left" style="left: 10px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="16" rx="2"/>
+              <path d="M7 8h10M7 12h10M7 16h6"/>
+            </svg>
+          </span>
+          <input type="text" name="cpf" id="cad_cpf" class="form-input" style="padding-left: 34px; font-size: 13px;" placeholder="Digite seu CPF" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data de nascimento -->
+    <div class="form-group">
+      <label class="form-label">Data de nascimento</label>
+      <div class="input-with-icon">
+        <input type="date" name="data_nascimento" class="form-input" style="padding-left: 14px;" required>
+      </div>
+    </div>
+
+    <!-- CEP -->
+    <div class="form-group">
+      <label class="form-label">CEP</label>
+      <div class="input-with-icon">
+        <span class="input-icon-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+        </span>
+        <input type="text" name="cep" id="cad_cep" class="form-input" placeholder="Digite o CEP" required>
+        <span class="input-icon-right" style="cursor: default;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Endereço -->
+    <div class="form-group">
+      <label class="form-label">Endereço</label>
+      <div class="input-with-icon">
+        <span class="input-icon-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </span>
+        <input type="text" name="endereco" class="form-input" placeholder="Digite seu endereço completo" required>
+      </div>
+    </div>
+
+    <input type="hidden" name="municipio" value="Belém">
+
+    <!-- Telefone -->
+    <div class="form-group">
+      <label class="form-label">Telefone</label>
+      <div class="input-with-icon">
+        <span class="input-icon-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+        </span>
+        <input type="text" name="telefone" id="cad_tel" class="form-input" placeholder="(00) 00000-0000" required>
+      </div>
+    </div>
+
+    <!-- Serviço onde está sendo atendido -->
+    <div class="form-group">
+      <label class="form-label">Serviço onde está sendo atendido</label>
+      <div style="background: white; border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 12px;">
+        <select name="servico_atendimento" class="form-select" style="border: none; padding: 0; margin-bottom: 12px; font-weight: 600;" required>
+          <option value="" disabled selected>Selecione o serviço</option>
+          {% for l in locais %}
+            <option value="{{ l.id }}" {% if forloop.first %}selected{% endif %}>{{ l.nome }}</option>
+          {% endfor %}
+        </select>
+        
+        <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 10px;">
+          {% for l in locais %}
+            <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; cursor: pointer;">
+              <input type="radio" name="servico_radio" value="{{ l.id }}" {% if forloop.first %}checked{% endif %} onchange="document.querySelector('select[name=servico_atendimento]').value=this.value;">
+              <span>{{ l.nome }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Senha de acesso -->
+    <div class="form-group">
+      <label class="form-label">Senha de acesso</label>
+      <div class="input-with-icon">
+        <span class="input-icon-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </span>
+        <input type="password" name="senha" id="cad_senha" class="form-input" placeholder="Crie uma senha" required minlength="6">
+        <button type="button" class="input-icon-right" onclick="togglePasswordVisibility('cad_senha')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Botão Criar conta -->
+    <button type="submit" class="btn-primary" style="margin-top: 24px;">
+      Criar conta
+    </button>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  // Máscaras de CPF, CEP e Telefone
+  const cpf = document.getElementById('cad_cpf');
+  if (cpf) {
+    cpf.addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      e.target.value = v;
+    });
+  }
+
+  const tel = document.getElementById('cad_tel');
+  if (tel) {
+    tel.addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+      else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+      e.target.value = v;
+    });
+  }
+
+  const cep = document.getElementById('cad_cep');
+  if (cep) {
+    cep.addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+      if (v.length > 5) v = v.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+      e.target.value = v;
+    });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Meu Perfil{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho -->
+<div class="app-header">
+  <a href="{% url 'acompanhamento:paciente_dashboard' %}" class="header-back-btn" aria-label="Voltar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  
+  <div class="header-title-center">
+    <div style="font-size: 17px; font-weight: 800; color: var(--secondary);">Meu Perfil</div>
+  </div>
+
+  <div style="width: 32px;"></div>
+</div>
+
+<div class="app-content" style="padding-bottom: 90px;">
+  <!-- Card Principal do Usuário -->
+  <div class="card" style="text-align: center; margin-bottom: 16px; padding: 20px 16px;">
+    <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; margin: 0 auto 12px; box-shadow: 0 4px 12px rgba(0,121,107,0.2);">
+      {{ paciente.nome_completo|slice:":1"|upper }}
+    </div>
+    <h2 style="font-size: 18px; font-weight: 800; color: var(--secondary); margin-bottom: 2px;">
+      {{ paciente.nome_completo }}
+    </h2>
+    <span style="display: inline-block; background-color: var(--primary-light); color: var(--primary-dark); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-full); margin-top: 4px;">
+      Paciente em Telemonitoramento
+    </span>
+  </div>
+
+  <!-- Dados Pessoais e Cadastrais -->
+  <div class="card" style="margin-bottom: 16px; padding: 18px 16px;">
+    <h3 style="font-size: 14px; font-weight: 700; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+      Informações Pessoais
+    </h3>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <span style="color: var(--text-muted);">CPF:</span>
+        <strong style="color: var(--text-main);">{{ paciente.cpf }}</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <span style="color: var(--text-muted);">Cartão SUS:</span>
+        <strong style="color: var(--text-main);">{{ paciente.cartao_sus|default:"Não informado" }}</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <span style="color: var(--text-muted);">Data de Nascimento:</span>
+        <strong style="color: var(--text-main);">{{ paciente.data_nascimento|date:"d/m/Y" }}</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <span style="color: var(--text-muted);">Telefone:</span>
+        <strong style="color: var(--text-main);">{{ paciente.telefone }}</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <span style="color: var(--text-muted);">Município:</span>
+        <strong style="color: var(--text-main);">{{ paciente.municipio }}</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; padding-bottom: 4px;">
+        <span style="color: var(--text-muted);">Serviço de Saúde:</span>
+        <strong style="color: var(--primary); text-align: right; max-width: 60%;">
+          {{ paciente.servico_atendimento.nome|default:"Centro de Referência SUS" }}
+        </strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Termos e Consentimento -->
+  <div class="card" style="margin-bottom: 20px; padding: 14px 16px; background-color: #F8FAFC;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--success);">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--secondary);">Termo de Consentimento (TCLE)</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Aceito em {{ paciente.termo_aceito_em|date:"d/m/Y H:i"|default:"Cadastro" }}</div>
+        </div>
+      </div>
+      <a href="{% url 'acompanhamento:paciente_termo' %}" style="font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none;">
+        Visualizar
+      </a>
+    </div>
+  </div>
+
+  <!-- Botão Sair -->
+  <div style="margin-top: 10px;">
+    <a href="{% url 'acompanhamento:logout' %}" class="btn-secondary-outline" style="color: var(--danger); border-color: var(--danger); background-color: #FEF2F2;" onclick="return confirm('Tem certeza que deseja sair do aplicativo?');">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+      Sair da Conta
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block bottom_nav %}
+<div class="bottom-nav">
+  <a href="{% url 'acompanhamento:paciente_dashboard' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <span>Início</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:paciente_dashboard' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+      <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    </svg>
+    <span>Envios</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:paciente_videos' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+    </svg>
+    <span>Orientações</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:paciente_mensagens' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <span>Mensagens</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:paciente_perfil' %}" class="nav-item active">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</div>
+{% endblock %}

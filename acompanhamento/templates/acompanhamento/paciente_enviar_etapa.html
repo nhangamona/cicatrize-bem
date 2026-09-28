@@ -1,0 +1,312 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Enviar fotos - D{{ etapa.dia_pos_operatorio }}{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho Superior -->
+<div class="app-header">
+  <a href="{% url 'acompanhamento:paciente_dashboard' %}" class="header-back-btn" aria-label="Voltar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  
+  <div class="header-title-center">
+    <div style="font-size: 16px; font-weight: 800; color: var(--secondary);">Enviar fotos - D{{ etapa.dia_pos_operatorio }}</div>
+    <div class="header-title-sub">{{ etapa.data_prevista|date:"d/m/Y" }}</div>
+  </div>
+
+  <a href="javascript:void(0)" onclick="mostrarInstrucoes()" class="header-action-link" style="color: var(--primary); font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+    </svg>
+    Ver instruções
+  </a>
+</div>
+
+<div class="app-content" style="padding-bottom: 30px;">
+  <!-- Stepper de 3 etapas -->
+  <div class="stepper-bar">
+    <div class="step-item active">
+      <div class="step-circle" style="background-color: var(--primary); color: white; border-color: var(--primary); width: 20px; height: 20px; font-size: 0;">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="12" r="10"/>
+        </svg>
+      </div>
+      <span style="color: var(--primary); font-weight: 700;">1. Foto</span>
+    </div>
+
+    <div class="step-connector" style="margin-top: -12px;"></div>
+
+    <div class="step-item">
+      <div class="step-circle" style="width: 20px; height: 20px;"></div>
+      <span>2. Questionário</span>
+    </div>
+
+    <div class="step-connector" style="margin-top: -12px;"></div>
+
+    <div class="step-item">
+      <div class="step-circle" style="width: 20px; height: 20px;"></div>
+      <span>3. Envio</span>
+    </div>
+  </div>
+
+  <form method="POST" action="{% url 'acompanhamento:paciente_enviar_etapa' etapa.id %}" enctype="multipart/form-data" id="form-etapa">
+    {% csrf_token %}
+
+    <!-- Seção 1: Envie uma foto da sua ferida -->
+    <div class="card" style="padding: 18px 16px; margin-bottom: 20px;">
+      <h3 style="font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">
+        1. Envie uma foto da sua ferida
+      </h3>
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.4; margin-bottom: 16px;">
+        Tire uma foto nítida da região solicitada e responda ao questionário abaixo.
+      </p>
+
+      <!-- Input de arquivo real oculto -->
+      <input type="file" name="foto" id="input-foto" accept="image/*" style="display: none;" onchange="previewFoto(event)" required>
+
+      <!-- Área de Ação de Foto (Dashed Border) -->
+      <div id="upload-box" style="border: 2px dashed #CBD5E1; border-radius: var(--radius-md); padding: 22px 14px; text-align: center; margin-bottom: 16px; background-color: #FAFAFA;">
+        <div style="width: 44px; height: 44px; margin: 0 auto 12px; border-radius: 50%; background-color: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+        </div>
+
+        <button type="button" onclick="acionarCamera()" class="btn-primary" style="margin: 0 auto 10px; max-width: 240px; padding: 10px 16px; font-size: 13px; font-weight: 700; background: none; color: var(--primary); box-shadow: none; border: 1.5px solid var(--primary);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          Tirar foto agora
+        </button>
+
+        <div style="font-size: 12px; color: var(--text-muted); margin: 6px 0; font-weight: 500;">ou</div>
+
+        <button type="button" onclick="acionarGaleria()" class="btn-secondary-outline" style="margin: 0 auto; max-width: 240px; padding: 10px 16px; font-size: 13px; font-weight: 600; border-color: #CBD5E1; color: var(--text-main); background: #FFFFFF;">
+          Escolher da galeria
+        </button>
+      </div>
+
+      <!-- Preview da foto carregada (oculto inicialmente) -->
+      <div id="preview-box" style="display: none; margin-bottom: 16px; text-align: center;">
+        <div style="position: relative; display: inline-block; max-width: 100%; border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--primary);">
+          <img id="img-preview" src="#" alt="Foto da ferida" style="max-height: 220px; width: auto; max-width: 100%; display: block;">
+          <button type="button" onclick="removerFoto()" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            ✕
+          </button>
+        </div>
+        <div style="font-size: 12px; color: var(--success); font-weight: 700; margin-top: 6px;">✓ Foto selecionada com sucesso</div>
+      </div>
+
+      <!-- Caixa explicativa: Como tirar uma boa foto -->
+      <div style="background-color: #F0FDF9; border: 1px solid #CCFBF1; border-radius: var(--radius-md); padding: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #0F766E; margin-bottom: 12px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Como tirar uma boa foto
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- Item 1 -->
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="color: #0F766E; flex-shrink: 0; margin-top: 1px;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: #115E59;">Boa iluminação</div>
+              <div style="font-size: 12px; color: #0F766E;">Prefira luz natural.</div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="color: #0F766E; flex-shrink: 0; margin-top: 1px;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h6v6M9 21H3v-6M21 15v6h-6M3 9V3h6"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: #115E59;">Foco</div>
+              <div style="font-size: 12px; color: #0F766E;">A foto deve estar nítida.</div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="color: #0F766E; flex-shrink: 0; margin-top: 1px;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="6"/>
+                <circle cx="12" cy="12" r="2"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: #115E59;">Distância</div>
+              <div style="font-size: 12px; color: #0F766E;">Tire a foto de perto e outra mostrando a região ao redor.</div>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <div style="color: #0F766E; flex-shrink: 0; margin-top: 1px;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0l-11 11a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0l11-11a1 1 0 0 0 0-1.4zM7.5 14.5l-2-2M10.5 11.5l-2-2M13.5 8.5l-2-2M16.5 5.5l-2-2"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: #115E59;">Regra</div>
+              <div style="font-size: 12px; color: #0F766E;">Use uma régua ou moeda para referência de tamanho.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 2: Como está seu pós-operatório? -->
+    <div class="card" style="padding: 18px 16px; margin-bottom: 24px;">
+      <h3 style="font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 14px;">
+        2. Como está seu pós-operatório?
+      </h3>
+
+      <!-- Escala de dor (0 a 10) -->
+      <div style="margin-bottom: 18px;">
+        <label class="form-label" style="font-size: 13px; font-weight: 700; color: var(--text-main);">
+          Escala de dor (0 a 10)
+        </label>
+        
+        <input type="hidden" name="intensidade_dor" id="intensidade_dor_input" value="0">
+
+        <div class="pain-scale-container" style="display: flex; justify-content: space-between; gap: 2px; margin: 10px 0 6px;">
+          {% for i in "0123456789"|make_list %}
+            <button type="button" class="pain-btn {% if forloop.first %}selected{% endif %}" onclick="selecionarDor({{ forloop.counter0 }})" id="pain-btn-{{ forloop.counter0 }}">
+              {{ forloop.counter0 }}
+            </button>
+          {% endfor %}
+          <button type="button" class="pain-btn" onclick="selecionarDor(10)" id="pain-btn-10">
+            10
+          </button>
+        </div>
+
+        <div class="pain-scale-labels" style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); font-weight: 600;">
+          <span>Sem dor</span>
+          <span>Dor intensa</span>
+        </div>
+      </div>
+
+      <!-- Houve sangramentos? -->
+      <div style="margin-bottom: 18px;">
+        <label class="form-label" style="font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+          Houve sangramentos?
+        </label>
+        
+        <div style="display: flex; gap: 20px; align-items: center;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text-main);">
+            <input type="radio" name="ferida_sangrando" value="false" checked style="accent-color: var(--primary); width: 18px; height: 18px;">
+            Não
+          </label>
+
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text-main);">
+            <input type="radio" name="ferida_sangrando" value="true" style="accent-color: var(--primary); width: 18px; height: 18px;">
+            Sim
+          </label>
+        </div>
+      </div>
+
+      <!-- Mensagem para o médico (opcional) -->
+      <div>
+        <label class="form-label" style="font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+          Mensagem para o médico (opcional)
+        </label>
+        
+        <div style="position: relative;">
+          <textarea name="mensagem_opcional" id="mensagem_input" maxlength="200" class="form-textarea" placeholder="Escreva uma mensagem curta..." rows="3" style="width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; font-size: 13px; font-family: inherit;" oninput="atualizarContador(this)"></textarea>
+          <div id="char-counter" style="text-align: right; font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+            0/200
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão Continuar -->
+    <button type="submit" class="btn-primary" style="padding: 14px; font-size: 15px; font-weight: 800;">
+      Continuar
+    </button>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function acionarCamera() {
+    const input = document.getElementById('input-foto');
+    input.setAttribute('capture', 'environment');
+    input.click();
+  }
+
+  function acionarGaleria() {
+    const input = document.getElementById('input-foto');
+    input.removeAttribute('capture');
+    input.click();
+  }
+
+  function previewFoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('img-preview').src = e.target.result;
+        document.getElementById('preview-box').style.display = 'block';
+        document.getElementById('upload-box').style.display = 'none';
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function removerFoto() {
+    document.getElementById('input-foto').value = '';
+    document.getElementById('preview-box').style.display = 'none';
+    document.getElementById('upload-box').style.display = 'block';
+  }
+
+  function selecionarDor(valor) {
+    document.getElementById('intensidade_dor_input').value = valor;
+    for (let i = 0; i <= 10; i++) {
+      const btn = document.getElementById('pain-btn-' + i);
+      if (btn) {
+        if (i === valor) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+      }
+    }
+  }
+
+  function atualizarContador(textarea) {
+    document.getElementById('char-counter').innerText = textarea.value.length + '/200';
+  }
+
+  function mostrarInstrucoes() {
+    alert("Dicas para envio:\n1. Certifique-se de estar em um local bem iluminado.\n2. Mantenha o celular estável para a foto não ficar borrada.\n3. Se possível, coloque uma régua ou moeda próxima à ferida para servir de escala métrica.");
+  }
+</script>
+{% endblock %}

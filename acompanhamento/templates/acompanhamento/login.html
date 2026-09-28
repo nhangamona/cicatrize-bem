@@ -1,0 +1,160 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Login{% endblock %}
+
+{% block content %}
+<div class="auth-bg">
+  <div>
+    <!-- Logo e Título -->
+    <div class="auth-header">
+      <img src="{% static 'img/logo_cicatrizebem.png' %}" alt="Cicatrize Bem" class="auth-logo-img">
+      
+      <div class="auth-subtitle-divider">
+        <div class="auth-dot"></div>
+        <div class="auth-line"></div>
+      </div>
+      
+      <div class="auth-subtitle">Telemonitoramento pós operatório</div>
+      <div class="auth-sub-desc">em cirurgia dermatológica</div>
+    </div>
+
+    <!-- Formulário de Login -->
+    <form method="POST" action="{% url 'acompanhamento:login' %}">
+      {% csrf_token %}
+      
+      <!-- CPF -->
+      <div class="form-group">
+        <label for="cpf_input" class="form-label">CPF</label>
+        <div class="input-with-icon">
+          <span class="input-icon-left">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </span>
+          <input type="text" name="cpf" id="cpf_input" class="form-input" placeholder="Digite seu CPF" required autocomplete="username">
+        </div>
+      </div>
+
+      <!-- Senha -->
+      <div class="form-group">
+        <label for="senha_input" class="form-label">Senha</label>
+        <div class="input-with-icon">
+          <span class="input-icon-left">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </span>
+          <input type="password" name="senha" id="senha_input" class="form-input" placeholder="Digite sua senha" required autocomplete="current-password">
+          <button type="button" class="input-icon-right" onclick="togglePasswordVisibility('senha_input')">
+            <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Esqueci a senha -->
+      <div style="text-align: center; margin: 12px 0 22px;">
+        <a href="#" style="color: var(--primary); font-size: 13px; text-decoration: underline; font-weight: 500;" onclick="alert('Entre em contato com o Serviço de Dermatologia da UEPA para redefinir sua senha.'); return false;">Esqueci minha senha</a>
+      </div>
+
+      <!-- Botão Entrar -->
+      <button type="submit" class="btn-primary" style="margin-bottom: 20px;">
+        Entrar
+      </button>
+
+      <!-- Divisor ou -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px;">
+        <div style="flex: 1; height: 1px; background-color: var(--border);"></div>
+        <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">ou</span>
+        <div style="flex: 1; height: 1px; background-color: var(--border);"></div>
+      </div>
+
+      <!-- Criar nova conta -->
+      <div style="text-align: center; font-size: 14px; color: var(--text-main);">
+        Não possui conta? 
+        <a href="javascript:void(0)" onclick="abrirModalCadastro()" style="color: var(--primary); font-weight: 700; text-decoration: underline;">Criar nova conta</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Logos Institucionais no Rodapé: CIPE e UEPA -->
+  <div class="auth-footer">
+    <div class="institutional-logos">
+      <img src="{% static 'img/logo_cipe.png' %}" alt="CIPE - Mestrado Profissional" class="logo-inst-img" title="CIPE - Cirurgia e Pesquisa Experimental">
+      <img src="{% static 'img/logo_uepa.png' %}" alt="UEPA - Universidade do Estado do Pará" class="logo-inst-img" title="UEPA - Universidade do Estado do Pará">
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Selecionar Perfil de Cadastro -->
+<div id="modal-cadastro" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; padding: 20px;">
+  <div style="background: white; border-radius: var(--radius-lg); max-width: 400px; width: 100%; padding: 24px; text-align: center; box-shadow: var(--shadow-lg);">
+    <h3 style="font-size: 18px; font-weight: 700; color: var(--secondary); margin-bottom: 8px;">Criar Nova Conta</h3>
+    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Selecione o seu perfil para prosseguir com o cadastro:</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+      <a href="{% url 'acompanhamento:cadastro_paciente' %}" class="btn-primary" style="background-color: var(--primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Sou Paciente Cirúrgico
+      </a>
+      
+      <a href="{% url 'acompanhamento:cadastro_medico' %}" class="btn-secondary-outline">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+        </svg>
+        Sou Médico(a) Dermatologista
+      </a>
+    </div>
+
+    <button type="button" onclick="fecharModalCadastro()" style="background: none; border: none; font-size: 13px; color: var(--text-muted); cursor: pointer; text-decoration: underline;">
+      Voltar para o login
+    </button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+      input.type = 'text';
+    } else {
+      input.type = 'password';
+    }
+  }
+
+  function abrirModalCadastro() {
+    document.getElementById('modal-cadastro').style.display = 'flex';
+  }
+
+  function fecharModalCadastro() {
+    document.getElementById('modal-cadastro').style.display = 'none';
+  }
+
+  // Máscara dinâmica de CPF
+  const cpfInput = document.getElementById('cpf_input');
+  if (cpfInput) {
+    cpfInput.addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v.length > 11) v = v.slice(0, 11);
+      if (v.length > 9) {
+        v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      } else if (v.length > 6) {
+        v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      } else if (v.length > 3) {
+        v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      }
+      e.target.value = v;
+    });
+  }
+</script>
+{% endblock %}

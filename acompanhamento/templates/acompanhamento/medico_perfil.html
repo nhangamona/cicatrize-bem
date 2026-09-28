@@ -1,0 +1,146 @@
+{% extends 'acompanhamento/base.html' %}
+{% load static %}
+
+{% block title %}Cicatrize Bem — Perfil Médico{% endblock %}
+
+{% block content %}
+<!-- Cabeçalho -->
+<div class="app-header">
+  <a href="{% url 'acompanhamento:medico_dashboard' %}" class="header-back-btn" aria-label="Voltar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  
+  <div class="header-title-center">
+    <div style="font-size: 17px; font-weight: 800; color: var(--secondary);">Perfil Profissional</div>
+  </div>
+
+  <div style="width: 32px;"></div>
+</div>
+
+<div class="app-content" style="padding-bottom: 90px;">
+  <!-- Card Principal do Médico -->
+  <div class="card" style="text-align: center; margin-bottom: 16px; padding: 22px 16px;">
+    <div style="width: 76px; height: 76px; border-radius: 50%; overflow: hidden; border: 3px solid var(--primary-light); margin: 0 auto 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
+      <img src="{% static 'img/imagem3.jpeg' %}" alt="{{ medico.nome_completo }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=150';">
+    </div>
+
+    <h2 style="font-size: 18px; font-weight: 800; color: var(--secondary); margin-bottom: 2px;">
+      {{ medico.nome_completo }}
+    </h2>
+    
+    <div style="font-size: 13px; color: var(--primary); font-weight: 700; margin-bottom: 6px;">
+      CRM-{{ medico.uf_crm }} {{ medico.crm }} • Dermatologista
+    </div>
+
+    <span style="display: inline-block; background-color: var(--secondary-light); color: var(--secondary); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-full);">
+      {{ medico.get_tipo_perfil_display|default:"Médico(a) Cirurgião" }}
+    </span>
+  </div>
+
+  <!-- Dados Profissionais -->
+  <div class="card" style="margin-bottom: 16px; padding: 18px 16px;">
+    <h3 style="font-size: 13px; font-weight: 700; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+      </svg>
+      Informações Profissionais
+    </h3>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <span style="color: var(--text-muted);">E-mail Institucional:</span>
+        <strong style="color: var(--text-main);">{{ medico.email }}</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <span style="color: var(--text-muted);">Registro CRM:</span>
+        <strong style="color: var(--text-main);">CRM/{{ medico.uf_crm }} {{ medico.crm }}</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <span style="color: var(--text-muted);">Especialidade:</span>
+        <strong style="color: var(--text-main);">Dermatologia e Cirurgia Dermatológica</strong>
+      </div>
+
+      <div style="padding-bottom: 4px;">
+        <span style="color: var(--text-muted); display: block; margin-bottom: 6px;">Locais de Atendimento Cadastrados:</span>
+        {% for local in medico.locais_atendimento.all %}
+          <div style="background-color: #F8FAFC; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 10px; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: var(--secondary);">
+            🏥 {{ local.nome }} ({{ local.municipio }} - {{ local.uf }})
+          </div>
+        {% empty %}
+          <div style="font-size: 12px; color: var(--text-muted);">Nenhum local cadastrado.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Ações Rápidas -->
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+    <a href="{% url 'acompanhamento:medico_nova_cirurgia' %}" class="btn-primary" style="padding: 12px 18px; font-size: 14px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Cadastrar Nova Cirurgia
+    </a>
+
+    <a href="{% url 'acompanhamento:logout' %}" class="btn-secondary-outline" style="color: var(--danger); border-color: var(--danger); background-color: #FEF2F2;" onclick="return confirm('Deseja realmente sair da sua conta?');">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+      Sair da Conta
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block bottom_nav %}
+<div class="bottom-nav">
+  <a href="{% url 'acompanhamento:medico_dashboard' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <span>Dashboard</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_pacientes' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </svg>
+    <span>Pacientes</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_mensagens' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <span>Mensagens</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_alertas' %}" class="nav-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+    </svg>
+    <span>Alertas</span>
+  </a>
+
+  <a href="{% url 'acompanhamento:medico_perfil' %}" class="nav-item active">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    <span>Perfil</span>
+  </a>
+</div>
+{% endblock %}
